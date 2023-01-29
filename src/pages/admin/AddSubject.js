@@ -1,20 +1,37 @@
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogHeader, ListItem, Text, TextInput } from '@react-native-material/core';
+import { Box, Button, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
-import { Drawer } from 'react-native-material-drawer';
+import { useEffect, useState } from 'react';
+import { Alert, StyleSheet, View } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigate } from 'react-router-native';
-import Header from '../components/Header';
-import { addSubjectToDb } from '../utils/subjectsServices';
+import { addSubjectToDb } from '../../utils/subjectsServices';
+import { getStudentsByRole } from '../../utils/usersServices';
 
 export default function AddSubject() {
     const [values, setValues] = useState({})
     const [open, setOpen] = useState(false)
-    const [openDialog, setOpenDialog] = useState(false)
     const [dialogContent, setDialogContent] = useState('')
-
+    const [teachers, setTeachers] = useState([])
 
     const navigate = useNavigate()
+    const getTeachers = async () => {
+        try {
+            console.log("test33");
+            const teachers = await getStudentsByRole({ role: "2" })
+            if (!teachers?.success) {
+                console.log("errs::", teachers?.message);
+                Alert.alert('Message', teachers?.message, [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ]);
+                return
+            }
+            console.log("test44::", teachers?.data?.users);
+            setTeachers(teachers?.data?.users?.map(user => { return { value: user?.id, label: (user?.name || 'test') } }))
+        } catch (e) {
+            console.log("test", e);
+        }
+    }
     const addSubject = async () => {
         const res = await addSubjectToDb(values)
         if (!!res?.success) {
@@ -25,42 +42,18 @@ export default function AddSubject() {
 
         }
     }
+    useEffect(() => {
+        console.log("test");
+        getTeachers()
+    }, [])
     return (
-        <Drawer
-            open={open}
-            onClose={() => setOpen(false)}
-            // style={styles.container}
-            drawerContent={
-                <ScrollView
-                    style={{
-                        marginTop: 60,
-                    }}
-                >
-                    <Box
-                        style={{
-                            flexDirection: "row",
-                            alignItems: 'center',
-                            marginRight: 8
-                        }}
-                    >
-                        <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='grey' label={"noor khraisat"} />
-                        <Text>Noor Khraisat</Text>
-                    </Box>
-                    <ListItem
-                        title='logout'
-                        onPress={() => navigate("/login")}
-
-                    />
-                </ScrollView>
-            }
-            animationTime={250}>
+        <KeyboardAwareScrollView>
 
             <Box
                 style={{
                     width: '100%'
                 }}
             >
-                <Header setOpen={setOpen} />
 
                 <View style={
                     {
@@ -103,16 +96,36 @@ export default function AddSubject() {
                                 setValues((v) => { return { ...v, grade: e } })
                             }
                         />
-                        <TextInput
-                            label='teacher'
-                            color='#184a99'
-                            style={{ width: '100%', margin: 3 }}
-                            value={values?.teacherRef}
-                            onChangeText={(e) => {
-                                setValues((v) => { return { ...v, teacher_r: e } })
+
+
+                        <DropDownPicker
+                            open={open}
+                            value={values?.teacher_r}
+                            items={teachers}
+                            placeholder="Teacher"
+                            setOpen={setOpen}
+                            setValue={
+                                (e) => setValues((v) => { return { ...v, teacher_r: e() } })
+
+                            }
+                            // setItems={setItems}
+                            placeholderStyle={{
+                                color: "black",
+                                paddingLeft: 6,
+                                fontSize: 16
+                            }}
+                            theme="LIGHT"
+                            multiple={false}
+
+                            style={{
+                                width: '100%',
+                                backgroundColor: '#f9f9f9',
+                                borderRadius: '1px',
+                                borderColor: "white",
+                                borderBottomColor: "grey",
+                                margin: 3
                             }}
                         />
-
                         <Button
                             title="Add Subject"
                             onPress={() => {
@@ -133,7 +146,7 @@ export default function AddSubject() {
                 </View>
 
             </Box>
-        </Drawer>
+        </KeyboardAwareScrollView>
     );
 }
 

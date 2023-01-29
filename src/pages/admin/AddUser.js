@@ -1,17 +1,21 @@
-import { Avatar, Box, Button, ListItem, Text, TextInput } from '@react-native-material/core';
+import { Box, Button, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { Drawer } from 'react-native-material-drawer';
+import { StyleSheet, View } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigate } from 'react-router-native';
-import Header from '../components/Header';
-import firebase from '../database/firebaseConfig';
+import firebase from '../../database/firebaseConfig';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function AddUser() {
     const [values, setValues] = useState({})
     const [open, setOpen] = useState(false)
 
-    const navigate = useNavigate()
+    const data = [
+        { label: 'Student', value: '1' },
+        { label: 'Teacher', value: '2' },
+        { label: 'Admin', value: '3' },
+    ];
     const dbRef = firebase.firestore().collection('users');
     const addUser = () => {
         dbRef.add({
@@ -26,36 +30,7 @@ export default function AddUser() {
             });
     }
     return (
-        <Drawer
-            open={open}
-            onClose={() => setOpen(false)}
-            style={styles.container}
-            useNativeDriver={'true'}
-            drawerContent={
-                <ScrollView
-                    style={{
-                        marginTop: 60,
-                    }}
-                >
-                    <Box
-                        style={{
-                            flexDirection: "row",
-                            alignItems: 'center',
-                            marginRight: 8
-                        }}
-                    >
-                        <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='grey' label={"noor khraisat"} />
-                        <Text>Noor Khraisat</Text>
-                    </Box>
-                    <ListItem
-                        title='logout'
-                        onPress={() => navigate("/login")}
-
-                    />
-                </ScrollView>
-            }
-            animationTime={250}>
-            <Header setOpen={setOpen} />
+        <KeyboardAwareScrollView>
 
             <View style={
                 {
@@ -68,6 +43,7 @@ export default function AddUser() {
                 }
             }
             >
+
                 <Box
                     style={{
                         alignSelf: 'center',
@@ -79,6 +55,7 @@ export default function AddUser() {
                     }}
                 >
 
+
                     <TextInput
                         label='fullName'
                         color='#184a99'
@@ -88,6 +65,7 @@ export default function AddUser() {
                             setValues((v) => { return { ...v, name: e } })
                         }}
                     />
+
                     <TextInput
                         label='Special Number'
                         color='#184a99'
@@ -97,13 +75,32 @@ export default function AddUser() {
                             setValues((v) => { return { ...v, specialNumber: e } })
                         }
                     />
-                    <TextInput
-                        label='Role'
-                        color='#184a99'
-                        style={{ width: '100%', margin: 3 }}
+                    <DropDownPicker
+                        open={open}
                         value={values?.role}
-                        onChangeText={(e) => {
-                            setValues((v) => { return { ...v, role: e } })
+                        labelProps={'ss'}
+                        items={data}
+                        placeholder="role"
+                        setOpen={setOpen}
+                        setValue={
+                            (e) => setValues((v) => { return { ...v, role: e() } })
+                        }
+                        // setItems={setItems}
+                        placeholderStyle={{
+                            color: "black",
+                            paddingLeft: 6,
+                            fontSize: 16
+                        }}
+                        theme="LIGHT"
+                        multiple={false}
+
+                        style={{
+                            width: '100%',
+                            backgroundColor: '#f9f9f9',
+                            borderRadius: '1px',
+                            borderColor: "white",
+                            borderBottomColor: "grey",
+                            margin: 3
                         }}
                     />
                     <TextInput
@@ -127,7 +124,7 @@ export default function AddUser() {
                         }}
                     />
                     <Button
-                        title="Add User"
+                        title={'Add user'}
                         onPress={() => {
                             addUser()
                         }}
@@ -144,7 +141,8 @@ export default function AddUser() {
 
                 <StatusBar style="auto" />
             </View>
-        </Drawer>
+        </KeyboardAwareScrollView>
+
     );
 }
 

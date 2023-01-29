@@ -21,7 +21,7 @@ export const getSubjects = async () => {
     try {
         const subjects = []
 
-        const snapshot = await userDbRef?.get()
+        const snapshot = await subjectref?.get()
         if (snapshot.empty) {
             return { success: true, data: { subjects: [], message: "no subjects in the DB" } }
         }
@@ -45,7 +45,7 @@ export const getSubjectsByGrade = async (grade) => {
     try {
         const subjects = []
 
-        const snapshot = await userDbRef?.where("grade", "==", grade).get()
+        const snapshot = await subjectref?.where("grade", "==", grade).get()
         if (snapshot.empty) {
             return { success: true, data: { subjects: [], message: "no subjects in the DB" } }
         }
@@ -67,9 +67,11 @@ export const getSubjectsByGrade = async (grade) => {
 }
 export const getSubjectsByTeacherRef = async (teacherRef) => {
     try {
+        console.log("test::try");
+
         const subjects = []
 
-        const snapshot = await userDbRef?.where("teacherRef", "==", teacherRef).get()
+        const snapshot = await subjectref?.where("teacher_r", "==", teacherRef).get()
         if (snapshot.empty) {
             return { success: true, data: { subjects: [], message: "no subjects in the DB" } }
         }
@@ -79,10 +81,12 @@ export const getSubjectsByTeacherRef = async (teacherRef) => {
             console.log(doc.id, '=>', doc.data());
 
         });
-
+        console.log("test::sucess");
         return { success: true, data: { subjects: subjects, message: "" } }
 
     } catch (e) {
+        console.log("test::sucess");
+
         console.log("error::", e);
         return { success: false, data: {}, errMessage: "Something went Wrong" }
 

@@ -3,7 +3,7 @@ export const services = [
         id: 1,
         name: "Subjects",
         icon: "",
-        navigation: "",
+        navigation: "/StudentSubjects",
         allowedTypes: ["1"]
     },
     {
@@ -24,14 +24,14 @@ export const services = [
         id: 4,
         name: "School announcments",
         icon: "",
-        navigation: "",
+        navigation: "/Announcments",
         allowedTypes: ["1"]
     },
     {
         id: 5,
         name: "Homeworks and submission",
         icon: "",
-        navigation: "",
+        navigation: "/StudentHomeworks",
         allowedTypes: ["1"]
     },
     {
@@ -45,7 +45,7 @@ export const services = [
         id: 7,
         name: "HomeWorks of the students",
         icon: "",
-        navigation: "",
+        navigation: "/AddHomework",
         allowedTypes: ["2"]
     },
     {
@@ -73,14 +73,14 @@ export const services = [
         id: 11,
         name: "Announcements and reminders",
         icon: "",
-        navigation: "",
+        navigation: "/addAnnouncment",
         allowedTypes: ["3"]
     },
     {
         id: 12,
         name: "Users Mangement",
         icon: "",
-        navigation: "",
+        navigation: "/AddUser",
         allowedTypes: ["3"]
     },
 

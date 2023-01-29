@@ -39,12 +39,12 @@ export const getUsers = async () => {
     }
 
 }
-export const getUserBySpecialNumberAndPassword = async ({ email = "Noor", password = "12345" }) => {
+export const getUserBySpecialNumberAndPassword = async ({ email, password }) => {
     try {
         const users = []
 
         const snapshot = await userDbRef
-            .where("email", "==", email)
+            .where("specialNumber", "==", email)
             .where("password", "==", password).get()
         if (snapshot.empty) {
             return { success: false, data: { users: [] }, errMessage: "Special number or password is wrong" }
@@ -88,12 +88,43 @@ export const getStudentsByGrade = async ({ grade }) => {
     }
 
 }
+export const getStudentsByRole = async ({ role }) => {
+    try {
+        const users = []
+
+        const snapshot = await userDbRef
+            .where("role", "==", role).get()
+        if (snapshot.empty) {
+            return { success: false, data: { users: [] }, errMessage: "no students found" }
+        }
+        snapshot.forEach(doc => {
+            users.push({ id: doc.id, ...doc.data() })
+            console.log(doc.id, '=>', doc.data());
+
+        });
+
+        return { success: true, data: { users: users, message: "" } }
+
+    } catch (e) {
+        console.log("error::", e);
+        return { success: false, data: {}, errMessage: "Something went Wrong" }
+
+    }
+
+}
 export const getUserFromLocalStorage = async () => {
+    console.log("getuser");
     const stringUser = await AsyncStorage.getItem('la-sall-user')
+    console.log("getuser:return");
+ 
     return JSON.parse(stringUser)
 
 }
 export const setUserToLocalStorage = async (user) => {
     await AsyncStorage.setItem('la-sall-user', JSON.stringify(user))
+
+}
+export const logoutUser = async () => {
+    await AsyncStorage.removeItem('la-sall-user')
 
 }

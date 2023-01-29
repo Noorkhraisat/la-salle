@@ -1,13 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { IconComponentProvider } from '@react-native-material/core';
 import { ThemeProvider } from '@react-navigation/native';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeRouter, Route, Routes } from 'react-router-native';
-import AddSubject from './src/pages/AddSubject';
-import AddUser from './src/pages/AddUser';
+import LoggedInContainer from './src/components/loggedInContainer';
+import AddAnnouncment from './src/pages/admin/addAnnouncment';
+import AddSubject from './src/pages/admin/AddSubject';
+import AddUser from './src/pages/admin/AddUser';
 import Dashboard from './src/pages/Dashboard';
 import LoginForm from './src/pages/LoginForm';
-
+import Profile from './src/pages/Profile';
+import Announcments from './src/pages/student/Announcments';
+import GetStudentSubject from './src/pages/student/getStudentSubject';
+import StudentHomeworks from './src/pages/student/StudentHomeworks';
+import AddHomework from './src/pages/teacher/AddHomework';
+import GetHomeWorksByTeacher from './src/pages/teacher/GetHomeWorksByTeacher';
+import GetStudentsBySubject from './src/pages/teacher/getStudentsBySubject';
+import GetSubjectsByTeacher from './src/pages/teacher/getSubjectsByTeacher';
 export default function App() {
   const theme = {
     colors: {
@@ -20,9 +30,16 @@ export default function App() {
 
     }
   }
+  const [open, setOpen] = useState(false)
+  // const navigate = useNavigate()
+ 
+
   return (
     <ThemeProvider theme={theme}>
       <IconComponentProvider IconComponent={MaterialCommunityIcons}>
+
+
+
         <View style={
           {
             height: '100%',
@@ -38,15 +55,34 @@ export default function App() {
 
           <NativeRouter>
             <Routes>
-              <Route exact path="/" element={<AddSubject />} />
+              <Route exact
+                path="/"
+                element={<LoggedInContainer>
+                  <LoginForm />
+                </LoggedInContainer>
+                }
+              />
               <Route path="/login" element={<LoginForm />} />
-              <Route path="/Dashboard" element={<Dashboard />} />
-              <Route path="/AddUser" element={<AddUser />} />
+              <Route path="/Dashboard" element={<LoggedInContainer><Dashboard /></LoggedInContainer>} />
+              <Route path="/AddUser" element={<LoggedInContainer><AddUser /></LoggedInContainer>} />
+              <Route path="/StudentSubjects" element={<LoggedInContainer><GetStudentSubject /></LoggedInContainer>} />
+              <Route path="/AddHomework" element={<LoggedInContainer><GetHomeWorksByTeacher /></LoggedInContainer>} />
+              <Route path="/StudentHomeworks" element={<LoggedInContainer><StudentHomeworks /></LoggedInContainer>} />
+              <Route path="/Announcments" element={<LoggedInContainer><Announcments /></LoggedInContainer>} />
+              <Route path="/addAnnouncment" element={<LoggedInContainer><AddAnnouncment /></LoggedInContainer>} />
+              <Route path="/AddSubject" element={<LoggedInContainer><AddSubject /></LoggedInContainer>} />
+              <Route path="/GetSubjectsByTeacher" element={<LoggedInContainer><GetSubjectsByTeacher /></LoggedInContainer>} />
+              <Route path="/GetSubjectsByTeacher" element={<LoggedInContainer><GetSubjectsByTeacher /></LoggedInContainer>} />
+              <Route path="/GetStudentsBySubject" element={<LoggedInContainer><GetStudentsBySubject /></LoggedInContainer>} />
+
+              <Route path="/Profile" element={<LoggedInContainer><Profile /></LoggedInContainer>} />
+
 
 
             </Routes>
           </NativeRouter>
         </View>
+
       </IconComponentProvider>
     </ThemeProvider>
   );

@@ -4,12 +4,12 @@ import { Text } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import { getUserBySpecialNumberAndPassword } from '../utils/usersServices';
 
-export default function Card({ title, icon, onclick, color = "#184a99" }) {
+export default function Card({ title, icon, onclick, color = "#184a99", data }) {
     const navigate = useNavigate()
     return (
         <Pressable
             onPress={async () => {
-                navigate("/AddUser")
+                data?.navigation && navigate(data?.navigation)
             }}
             style={{
                 flex: 1,

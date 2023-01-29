@@ -21,73 +21,43 @@ export default function Dashboard() {
         callLocalStorage()
     }, [])
     return (
-        <Drawer
-            open={open}
-            onClose={() => setOpen(false)}
+        <View
             style={styles.container}
-            useNativeDriver={'true'}
-            drawerContent={
-                <ScrollView
-                    style={{
-                        marginTop: 60,
-                    }}
-                >
-                    <Box
-                        style={{
-                            flexDirection: "row",
-                            alignItems: 'center',
-                            marginRight: 8
-                        }}
-                    >
-                        <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='grey' label={"noor khraisat"} />
-                        <Text>Noor Khraisat</Text>
-                    </Box>
-                    <ListItem
-                        title='logout'
-                        onPress={() => navigate("/login")}
+        >
 
-                    />
-                </ScrollView>
-            }
-            animationTime={250}>
-            <Header setOpen={setOpen} />
-            <View
-                style={styles.container}
+
+            <Image
+                style={{
+                    width: '100%',
+                    height: '40%'
+                }}
+                source={require('../../assets/dashboard.png')}
+            />
+            <Box
+                style={{
+                    display: 'flex',
+                    marginTop: 50,
+                    justifyContent: 'space-around'
+                }}
             >
-
-
-                <Image
-                    style={{
-                        width: '100%',
-                        height: '40%'
-                    }}
-                    source={require('../../assets/backgroundLogo.png')}
+                <FlatList
+                    style={{ marginBottom: 350 }}
+                    data={services?.filter((item) => item?.allowedTypes?.includes(userType))}
+                    renderItem={({ item, idx }) => (
+                        <Card
+                            data={item}
+                            title={item.name}
+                            color={"#193c71"}
+                            icon={"exponent"}
+                        />
+                    )}
+                    //Setting the number of column
+                    numColumns={2}
+                    keyExtractor={(item, index) => index.toString()}
                 />
-                <Box
-                    style={{
-                        display: 'flex',
-                        marginTop: 50,
-                        justifyContent: 'space-around'
-                    }}
-                >
-                    <FlatList
-                        style={{ marginBottom: 400 }}
-                        data={services?.filter((item) => item?.allowedTypes?.includes(userType))}
-                        renderItem={({ item, idx }) => (
-                            <Card
-                                title={item.name}
-                                color={"#193c71"}
-                                icon={"exponent"}
-                            />
-                        )}
-                        //Setting the number of column
-                        numColumns={2}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
 
-                </Box>
-            </View>
-        </Drawer>
+            </Box>
+        </View>
     )
 }
 const styles = StyleSheet.create({

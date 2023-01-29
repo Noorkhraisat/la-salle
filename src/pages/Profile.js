@@ -7,37 +7,15 @@ import firebase from '../database/firebaseConfig';
 import { getUserBySpecialNumberAndPassword, getUserFromLocalStorage, setUserToLocalStorage } from '../utils/usersServices';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default function LoginForm() {
-    const [userName, setUserName] = useState('')
-    const [password, setPassword] = useState('')
+export default function Profile() {
     const [errMessage, setErrmessage] = useState('')
-
+    const [userData, setUserData] = useState()
     const navigate = useNavigate()
     const dbRef = firebase.firestore().collection('users');
-    const loginFunc = async () => {
-        console.log("start::");
-        setErrmessage("")
-        const loginRes = await getUserBySpecialNumberAndPassword({ email: userName, password: password })
-        if (!loginRes?.success) {
-            console.log("fail::", loginRes);
-            setErrmessage(loginRes?.errMessage)
-            return
-        }
-        try {
 
-            await setUserToLocalStorage(loginRes?.data?.users?.[0])
-            navigate('/Dashboard')
-
-        } catch (e) { }
-        console.log("DashboardDashboardDashboard::", loginRes?.data?.users?.[0]);
-        navigate('/Dashboard')
-
-    }
     const getUserData = async () => {
         const user = await getUserFromLocalStorage()
-        if (!!user?.email || !!user?.specialNumber) {
-            navigate('/Dashboard')
-        }
+        setUserData(user)
     }
     useEffect(() => {
         getUserData()
@@ -63,12 +41,6 @@ export default function LoginForm() {
                 }
             }
             >
-                <Image
-                    style={{
-                        width: '100%',
-                    }}
-                    source={require('../../assets/backgroundLogo.png')}
-                />
 
                 <Box
                     style={{
@@ -80,8 +52,10 @@ export default function LoginForm() {
                         alignItems: 'center'
                     }}
                 >
+                    
                     {errMessage && <Box
                         style={{
+
                             width: "100%",
                             backgroundColor: "#ff8881",
                             padding: 8,
@@ -98,38 +72,36 @@ export default function LoginForm() {
                     }
 
                     <TextInput
-                        label='UserName'
+                        label='name'
                         color='#184a99'
                         style={{ width: '100%', margin: 3 }}
-                        value={userName}
-                        onChangeText={(e) => {
-                            setUserName(e)
-                        }}
+                        value={userData?.name}
+                        editable={false}
+
+                    />
+                    <TextInput
+                        editable={false}
+                        color='#184a99'
+                        label='Grade'
+                        value={"grade " + userData?.grade}
+                        style={{ width: '100%', margin: 3 }}
+                        readOnly={true}
+
+                    />
+                    <TextInput
+                        editable={false}
+                        label='role'
+                        color='#184a99'
+                        style={{ width: '100%', margin: 3 }}
+                        value={userData?.role}
+                        readOnly={true}
                     />
                     <TextInput
                         color='#184a99'
-                        label='password'
-                        value={password}
-                        secureTextEntry={true}
+                        label='Special Number'
+                        value={userData?.specialNumber}
+                        editable={false}
                         style={{ width: '100%', margin: 3 }}
-                        onChangeText={(e) => {
-                            setPassword(e)
-
-                        }}
-                    />
-                    <Button
-                        title="Login"
-                        onPress={() => {
-                            loginFunc()
-                        }}
-                        style={{
-                            margin: 24,
-                            padding: 8,
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: '100%',
-                            backgroundColor: "#193c71"
-                        }}
                     />
                 </Box>
 
