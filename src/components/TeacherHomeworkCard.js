@@ -13,6 +13,8 @@ export default function TeacherHomeworkCard({ homework }) {
             onPress={() => { setOpenModal(true) }}
             elevation={5}
             style={{
+                marginLeft:"auto",
+                marginRight:'auto',
                 padding: 24,
                 backgroundColor: "white",
                 flex: 1,

@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useNavigate } from 'react-router-native';
 
-export default function SubjectCard({ subject, title, icon, onclick, color = "#184a99" }) {
+export default function TeacherSubjectCard({ subject, title, icon, onclick, color = "#184a99" }) {
     const navigate = useNavigate()
 
     return (
@@ -12,42 +12,30 @@ export default function SubjectCard({ subject, title, icon, onclick, color = "#1
             //     // navigate("/AddUser")
             // }}
             style={{
-                padding:16,
                 flex: 1,
-                width: "100%",
+                width: "50%",
                 height: 100,
                 margin: 8,
-                backgroundColor: color,
+                backgroundColor: '#17386a',
                 borderRadius: 5,
                 display: 'flex',
                 justifyContent: 'space-around',
-                // flexDirection: "row",
-                alignItems: 'start'
+                flexDirection: "row",
+                alignItems: 'center'
             }}>
-
-
-            {/* <Icon name={icon} style={{ fontSize: 50, color: 'white' }} /> */}
-            <Box style={{ flexDirection: 'row' }}>
+            <Box>
                 <Text style={{
                     color: 'white',
-                    fontSize: 16
+                    fontSize: 16,
+                    paddingBottom:8
                 }}>subject: </Text>
                 <Text style={{
                     color: 'grey',
                     fontSize: 16
                 }}>{subject?.name}</Text>
             </Box>
-            <Box style={{ flexDirection: 'row' }}>
-                <Text style={{
-                    color: 'white',
-                    fontSize: 16
-                }}>Teacher: </Text>
-                <Text style={{
-                    color: 'grey',
-                    fontSize: 16
-                }}>{subject?.name}</Text>
-            </Box>
-            
+
+
         </View >
     )
 }

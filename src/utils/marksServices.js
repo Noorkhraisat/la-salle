@@ -19,7 +19,7 @@ export const getMarks = async () => {
     try {
         const marks = []
 
-        const snapshot = await userDbRef?.get()
+        const snapshot = await subjectref?.get()
         if (snapshot.empty) {
             return { success: true, data: { marks: [], message: "no marks in the DB" } }
         }
@@ -41,7 +41,7 @@ export const getMarksByStudent = async (student_r) => {
     try {
         const marks = []
 
-        const snapshot = await userDbRef?.where("student_r", "==", student_r).get()
+        const snapshot = await subjectref?.where("student_r.id", "==", student_r).get()
         if (snapshot.empty) {
             return { success: true, data: { marks: [], message: "no marks in the DB" } }
         }
@@ -61,7 +61,7 @@ export const getMarksByStudent = async (student_r) => {
     }
 
 }
-export const getMarkByStudentAndSubject = async (student_r, subject_r) => {
+export const getMarkByStudentAndSubjectService = async (student_r, subject_r) => {
     try {
         const marks = []
         const snapshot = await subjectref

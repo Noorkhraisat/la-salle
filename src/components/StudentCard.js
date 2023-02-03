@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useNavigate } from 'react-router-native';
 
-export default function SubjectCard({ subject, title, icon, onclick, color = "#184a99" }) {
+export default function StudentCard({ studentData }) {
     const navigate = useNavigate()
 
     return (
@@ -12,42 +12,51 @@ export default function SubjectCard({ subject, title, icon, onclick, color = "#1
             //     // navigate("/AddUser")
             // }}
             style={{
-                padding:16,
                 flex: 1,
-                width: "100%",
-                height: 100,
+                width: 180,
                 margin: 8,
-                backgroundColor: color,
+                backgroundColor: '#17386a',
                 borderRadius: 5,
                 display: 'flex',
                 justifyContent: 'space-around',
-                // flexDirection: "row",
-                alignItems: 'start'
+                alignItems: 'start',
+                padding:8
             }}>
 
 
             {/* <Icon name={icon} style={{ fontSize: 50, color: 'white' }} /> */}
-            <Box style={{ flexDirection: 'row' }}>
+            <Box
+            style={{
+                display:"flex",
+                flexDirection:'row'
+            }}
+            >
                 <Text style={{
                     color: 'white',
-                    fontSize: 16
-                }}>subject: </Text>
+                    fontSize: 16,
+                   
+                }}>Name: </Text>
                 <Text style={{
                     color: 'grey',
                     fontSize: 16
-                }}>{subject?.name}</Text>
+                }}>{studentData?.name}</Text>
             </Box>
-            <Box style={{ flexDirection: 'row' }}>
+            <Box
+            style={{
+                display:"flex",
+                flexDirection:'row'
+            }}
+            >
                 <Text style={{
                     color: 'white',
                     fontSize: 16
-                }}>Teacher: </Text>
+                }}>Student Number: </Text>
                 <Text style={{
                     color: 'grey',
                     fontSize: 16
-                }}>{subject?.name}</Text>
+                }}>{studentData?.specialNumber}</Text>
             </Box>
-            
+         
         </View >
     )
 }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigate } from 'react-router-native'
 import SubjectCard from '../../components/SubjectCard'
+import TeacherSubjectCard from '../../components/TeacherSubjectCard'
 import { getSubjectsByGrade, getSubjectsByTeacherRef } from '../../utils/subjectsServices'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
 
@@ -35,11 +36,12 @@ export default function GetSubjectsByTeacher() {
                 style={{
                     display: 'flex',
                     marginTop: 50,
-                    justifyContent: 'space-around'
+                    justifyContent: 'center',
+                    alignItems:"center"
                 }}
             >
                 {allSubjects?.length == 0
-                    ? <Text>no Subjects :(</Text>
+                    ? <Text>no Su33bjects :(</Text>
 
                     : <FlatList
                         style={{ marginBottom: 0 }}
@@ -53,8 +55,14 @@ export default function GetSubjectsByTeacher() {
                                         }
                                     })
                                 }}
+                                style={{
+                                    display:'flex',
+                                    flexDirection:"row",
+                                    justifyContent:"space-around",
+                                    width:"50%"
+                                }}
                             >
-                                <SubjectCard
+                                <TeacherSubjectCard
                                     subject={item}
                                     color={"#193c71"}
                                     icon={"exponent"}
@@ -62,7 +70,7 @@ export default function GetSubjectsByTeacher() {
                             </Pressable>
                         )}
                         //Setting the number of column
-                        numColumns={1}
+                        numColumns={2}
                         keyExtractor={(item, index) => index.toString()}
                     />
                 }

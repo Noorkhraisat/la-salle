@@ -1,4 +1,4 @@
-import { Box, Button, TextInput } from '@react-native-material/core';
+import { Box, Button, Icon, IconButton, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -67,7 +67,7 @@ export default function AddHomework({ setOpenModal }) {
 
                 <View style={
                     {
-                        marginTop:40,
+                        marginTop: 40,
                         width: '100%',
                         height: '80%',
                         display: 'flex',
@@ -77,10 +77,15 @@ export default function AddHomework({ setOpenModal }) {
                     }
                 }
                 >
-                    <Button
-                        title="close"
+                    <IconButton
+                        style={{
+                            marginLeft: "auto",
+                            marginRight: 2
+                        }}
                         onPress={() => setOpenModal(false)}
-                    ></Button>
+                        icon={(props) => <Icon name={"close"} style={{ fontSize: 30, color: 'black' }} {...props} />}
+                    ></IconButton>
+                    <Icon name={'menu'} style={{ fontSize: 50, color: 'white' }} />
                     <Box
                         style={{
                             alignSelf: 'center',

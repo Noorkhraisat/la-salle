@@ -1,4 +1,4 @@
-import { Box, Button, TextInput } from '@react-native-material/core';
+import { Box, Button, Icon, IconButton, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
@@ -47,7 +47,15 @@ export default function AddMark({ subjectData, studentData, setOpenModal }) {
                     }
                 }
                 >
-
+                    <IconButton
+                        style={{
+                            marginLeft: "auto",
+                            marginRight: 2,
+                            marginTop:40
+                        }}
+                        onPress={() => setOpenModal(false)}
+                        icon={(props) => <Icon name={"close"} style={{ fontSize: 30, color: 'black' }} {...props} />}
+                    ></IconButton>
                     <Box
                         style={{
                             alignSelf: 'center',

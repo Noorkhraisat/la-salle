@@ -8,8 +8,9 @@ import { addStudenthomeWroktoDb } from '../../utils/homewrokServices';
 import { getDocumentAsync } from 'expo-document-picker';
 import { storage } from '../../database/firebaseConfig';
 import { getUserFromLocalStorage } from '../../utils/usersServices';
+import { createPlan } from '../../utils/lessonsPlanning';
 
-export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
+export default function AddNewPlan({ setOpenModal }) {
     const location = useLocation()
     let subjectId = location?.state?.subjectId
     let HomeworkData = location?.state?.HomeworkData
@@ -18,10 +19,9 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
     const addStudenthomeWrok = async () => {
         const studentData = await getUserFromLocalStorage()
 
-        const res = await addStudenthomeWroktoDb({
+        const res = await createPlan({
             ...values,
-            homework_r: { ...homeworkData },
-            student_r: { ...studentData }
+            teacher_r: { ...studentData }
         })
         if (!!res?.success) {
             Alert.alert('Sucess message', res?.data?.message, [
@@ -47,7 +47,7 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
                 xhr.send(null);
             })
 
-            const uploadTask = storage.ref(`homeworks/${result?.name}`).put(blob);
+            const uploadTask = storage.ref(`lessonPlans/${result?.name}`).put(blob);
             uploadTask.on("state_changed",
                 snapshot => { },
                 error => {
@@ -55,7 +55,7 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
                     console.log(error);
                 },
                 complete => {
-                    storage.ref(`homeworks/${result?.name}`)
+                    storage.ref(`lessonPlans/${result?.name}`)
                         .getDownloadURL()
                         .then((url) => {
                             setValues({ ...values, uploadedFile: url })
@@ -82,7 +82,7 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
 
                 <View style={
                     {
-                        marginTop: 50,
+                        marginTop: 30,
                         width: '100%',
                         height: '80%',
                         display: 'flex',
@@ -93,16 +93,16 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
                 }
                 >
                     <Box
-                        style={{
-                            display: 'flex',
-                            flexDirection: "row",
-                            paddingLeft: 16,
-                            width: "100%",
-                            justifyContent: "space-between",
-                            alignItems: "center"
-                        }}
+                    style={{
+                        display:'flex',
+                        flexDirection:"row",
+                        paddingLeft:16,
+                        width:"100%",
+                        justifyContent:"space-between",
+                        alignItems:"center"
+                    }}
                     >
-                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Home work submission</Text>
+                        <Text style={{fontSize:22,fontWeight:'bold'}}>Add new plan</Text>
                         <IconButton
                             style={{
                                 marginLeft: "auto",
@@ -125,16 +125,26 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
                     >
 
                         <TextInput
-                            label='title'
+                            label='Date'
                             color='#184a99'
                             style={{ width: '100%', margin: 3 }}
-                            value={values?.title}
+                            value={values?.date}
                             onChangeText={(e) => {
-                                setValues((v) => { return { ...v, title: e } })
+                                setValues((v) => { return { ...v, date: e } })
                             }}
                         />
                         <TextInput
-                            label='solution'
+                            label='Subject'
+                            color='#184a99'
+                            style={{ width: '100%', margin: 3 }}
+                            value={values?.subject}
+                            onChangeText={(e) => {
+                                setValues((v) => { return { ...v, subject: e } })
+                            }}
+                        />
+
+                        <TextInput
+                            label='Description'
                             color='#184a99'
                             multiline
                             numberOfLines={'5'}
@@ -144,12 +154,15 @@ export default function HomeworkSubmission({ homeworkData, setOpenModal }) {
                                 setValues((v) => { return { ...v, description: e } })
                             }
                         />
-                        <Box style={{width:'100%'}}>
+                        <Box
+                            style={{ width: '100%', margin: 3 }}
+
+                        >
                             <Button
                                 title='uploadFile'
                                 color='#184a99'
 
-                                style={{ width: '100%', margin: 3,padding:8 }}
+                                style={{ width: '100%', margin: 3, padding: 8 }}
                                 onPress={() => pickDocument()}
 
                             />

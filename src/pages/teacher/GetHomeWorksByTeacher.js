@@ -48,18 +48,25 @@ export default function GetHomeWorksByTeacher() {
                 style={{
                     display: 'flex',
                     marginTop: 50,
+                    width:'100%',
+                    alignItems:'center',
                     justifyContent: 'space-around'
                 }}
             >
                 <Button
                     title="add homework"
+                    style={{
+                        backgroundColor:'#17386a',
+                        padding:8,
+                        width:'90%'
+                    }}
                     onPress={() => { setOpenModal(true) }}
                 />
                 {allSubjects?.length == 0
                     ? <Text>no Subjects :(</Text>
 
                     : <FlatList
-                        style={{ marginBottom: 0 }}
+                        style={{ marginBottom: 0 ,width:'100%'}}
                         data={allSubjects}
                         renderItem={({ item, idx }) => (
                             <TeacherHomeworkCard
@@ -78,8 +85,8 @@ export default function GetHomeWorksByTeacher() {
 const styles = StyleSheet.create({
     container: {
         height: "100%",
+        alignItems:'center',
+        display: "flex",
         width: "100%",
-
-        display: "flex"
     },
 });

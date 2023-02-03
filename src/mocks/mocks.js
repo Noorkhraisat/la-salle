@@ -17,7 +17,7 @@ export const services = [
         id: 2,
         name: "Reports",
         icon: "",
-        navigation: "",
+        navigation: "/StudentMarks",
         allowedTypes: ["1"]
     },
     {
@@ -38,7 +38,7 @@ export const services = [
         id: 6,
         name: "Marks of the students",
         icon: "",
-        navigation: "",
+        navigation: "/GetSubjectsByTeacher",
         allowedTypes: ["2"]
     },
     {
@@ -59,7 +59,7 @@ export const services = [
         id: 9,
         name: "Planning for the lessons",
         icon: "",
-        navigation: "",
+        navigation: "/PlanningForLessons",
         allowedTypes: ["2"]
     },
     {

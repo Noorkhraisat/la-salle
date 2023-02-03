@@ -1,9 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { IconComponentProvider } from '@react-native-material/core';
+import { IconComponentProvider, Text } from '@react-native-material/core';
 import { ThemeProvider } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeRouter, Route, Routes } from 'react-router-native';
+import Header from './src/components/Header';
 import LoggedInContainer from './src/components/loggedInContainer';
 import AddAnnouncment from './src/pages/admin/addAnnouncment';
 import AddSubject from './src/pages/admin/AddSubject';
@@ -14,10 +15,12 @@ import Profile from './src/pages/Profile';
 import Announcments from './src/pages/student/Announcments';
 import GetStudentSubject from './src/pages/student/getStudentSubject';
 import StudentHomeworks from './src/pages/student/StudentHomeworks';
+import StudentMarks from './src/pages/student/StudentMarks';
 import AddHomework from './src/pages/teacher/AddHomework';
 import GetHomeWorksByTeacher from './src/pages/teacher/GetHomeWorksByTeacher';
 import GetStudentsBySubject from './src/pages/teacher/getStudentsBySubject';
 import GetSubjectsByTeacher from './src/pages/teacher/getSubjectsByTeacher';
+import PlanningForLessons from './src/pages/teacher/PlanningForLessons';
 export default function App() {
   const theme = {
     colors: {
@@ -32,7 +35,7 @@ export default function App() {
   }
   const [open, setOpen] = useState(false)
   // const navigate = useNavigate()
- 
+  console.warn = () => { }
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,13 +49,14 @@ export default function App() {
             width: '100%',
             display: 'flex',
             color: 'white',
+            marginTop: 0,
+            marginBottom: 'auto',
             backgroundColor: "#e6e6e6",
 
           }
         }
 
         >
-
           <NativeRouter>
             <Routes>
               <Route exact
@@ -74,6 +78,8 @@ export default function App() {
               <Route path="/GetSubjectsByTeacher" element={<LoggedInContainer><GetSubjectsByTeacher /></LoggedInContainer>} />
               <Route path="/GetSubjectsByTeacher" element={<LoggedInContainer><GetSubjectsByTeacher /></LoggedInContainer>} />
               <Route path="/GetStudentsBySubject" element={<LoggedInContainer><GetStudentsBySubject /></LoggedInContainer>} />
+              <Route path="/StudentMarks" element={<LoggedInContainer><StudentMarks /></LoggedInContainer>} />
+              <Route path="/PlanningForLessons" element={<LoggedInContainer><PlanningForLessons /></LoggedInContainer>} />
 
               <Route path="/Profile" element={<LoggedInContainer><Profile /></LoggedInContainer>} />
 

@@ -44,31 +44,27 @@ export default function GetStudentSubject() {
                 style={{
                     display: 'flex',
                     marginTop: 50,
-                    justifyContent: 'space-around'
+                    width: '100%',
+                    justifyContent: 'space-around',
+                    alignItems: 'center'
                 }}
             >
                 {allSubjects?.length == 0
                     ? <Text>no Subjects :(</Text>
 
                     : <FlatList
-                        style={{ marginBottom: 0 }}
+                        style={{ marginBottom: 0, alignSelf: 'center', width: '100%' }}
                         data={allSubjects}
                         renderItem={({ item, idx }) => (
-                            <Pressable
-                                onPress={() => {
-                                    setSubjectId(item?.id)
-                                    setOpenModal(true)
-                                }}
-                            >
+                            
                                 <SubjectCard
                                     subject={item}
                                     color={"#193c71"}
                                     icon={"exponent"}
                                 />
-                            </Pressable>
                         )}
                         //Setting the number of column
-                        numColumns={1}
+                        numColumns={2}
                         keyExtractor={(item, index) => index.toString()}
                     />
                 }

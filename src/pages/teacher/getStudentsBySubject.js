@@ -2,8 +2,10 @@ import { Box } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useLocation, useNavigate } from 'react-router-native'
+import StudentCard from '../../components/StudentCard'
 import { getStudentsByGrade, getUserFromLocalStorage } from '../../utils/usersServices'
 import AddMark from './addMark'
+import StudentMarkForTeacher from './StudentMarkForTeacher'
 
 export default function GetStudentsBySubject() {
     const location = useLocation()
@@ -30,12 +32,12 @@ export default function GetStudentsBySubject() {
         >
             <Modal
                 animationType="slide"
-                transparent={true}
+                // transparent={true}
                 visible={openModal}
                 onRequestClose={() => {
                     setOpenModal(!openModal);
                 }}>
-                <AddMark
+                <StudentMarkForTeacher
                     subjectData={subjectData}
                     studentData={selectedStudent}
                     setOpenModal={setOpenModal}
@@ -60,12 +62,18 @@ export default function GetStudentsBySubject() {
                                     setSelectedStudent(item)
                                     setOpenModal(true)
                                 }}
+                                style={{
+                                    display:"flex",
+                                    alignItems:'center',
+                                }}
                             >
-                                <Text>{(item?.specialNumber || item?.email)}</Text>
+                               <StudentCard
+                               studentData={item}
+                               />
                             </Pressable>
                         )}
                         //Setting the number of column
-                        numColumns={1}
+                        numColumns={2}
                         keyExtractor={(item, index) => index.toString()}
                     />
                 }
