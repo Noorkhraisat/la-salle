@@ -18,12 +18,13 @@ export default function Announcments() {
         <View
             style={styles.container}
         >
+            <Text style={{marginTop:30,paddingLeft:24,fontSize:22,fontWeight:'bold'}}>School Announcments</Text>
 
 
             <Box
                 style={{
                     display: 'flex',
-                    marginTop: 50,
+                    marginTop: 30,
                     justifyContent: 'space-around'
                 }}
             >

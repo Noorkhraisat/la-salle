@@ -12,6 +12,7 @@ export default function HomeWorkCard({ homework }) {
             onPress={() => { setOpenModal(true) }}
             elevation={5}
             style={{
+                alignSelf:'center',
                 padding: 24,
                 backgroundColor: "white",
                 flex: 1,

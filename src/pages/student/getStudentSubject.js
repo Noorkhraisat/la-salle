@@ -1,11 +1,10 @@
 import { Box } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
-import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Modal, StyleSheet, Text, View } from 'react-native'
 import SubjectCard from '../../components/SubjectCard'
 import { getSubjectsByGrade } from '../../utils/subjectsServices'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
 import StudentHomeworks from './StudentHomeworks'
-import StudentMarks from './StudentMarks'
 
 export default function GetStudentSubject() {
     const [allSubjects, setAllsubjects] = useState([])
@@ -27,7 +26,7 @@ export default function GetStudentSubject() {
         <View
             style={styles.container}
         >
-
+            <Text style={{marginTop:30,paddingLeft:16,fontSize:22,fontWeight:'bold'}}>Subjects</Text>
             <Modal
                 visible={openModal}
             >

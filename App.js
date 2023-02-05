@@ -9,6 +9,7 @@ import LoggedInContainer from './src/components/loggedInContainer';
 import AddAnnouncment from './src/pages/admin/addAnnouncment';
 import AddSubject from './src/pages/admin/AddSubject';
 import AddUser from './src/pages/admin/AddUser';
+import AllStudents from './src/pages/admin/AllStudents';
 import Dashboard from './src/pages/Dashboard';
 import LoginForm from './src/pages/LoginForm';
 import Profile from './src/pages/Profile';
@@ -80,6 +81,7 @@ export default function App() {
               <Route path="/GetStudentsBySubject" element={<LoggedInContainer><GetStudentsBySubject /></LoggedInContainer>} />
               <Route path="/StudentMarks" element={<LoggedInContainer><StudentMarks /></LoggedInContainer>} />
               <Route path="/PlanningForLessons" element={<LoggedInContainer><PlanningForLessons /></LoggedInContainer>} />
+              <Route path="/AllStudents" element={<LoggedInContainer><AllStudents /></LoggedInContainer>} />
 
               <Route path="/Profile" element={<LoggedInContainer><Profile /></LoggedInContainer>} />
 

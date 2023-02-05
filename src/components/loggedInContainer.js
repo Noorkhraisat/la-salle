@@ -9,12 +9,16 @@ import { getUserFromLocalStorage, logoutUser } from '../utils/usersServices';
 import Header from './Header';
 export default function LoggedInContainer({ children }) {
     const [open, setOpen] = useState(false)
+    const [user, setUser] = useState({})
+
+
     const navigate = useNavigate()
     const getUserData = async () => {
         const user = await getUserFromLocalStorage()
         if (!user?.email && !user?.specialNumber) {
             navigate('/login')
         }
+        setUser(user)
     }
     useEffect(() => {
         getUserData()
@@ -35,11 +39,12 @@ export default function LoggedInContainer({ children }) {
                         style={{
                             flexDirection: "row",
                             alignItems: 'center',
-                            marginRight: 8
+                            marginRight: 8,
+                            marginBottom:20
                         }}
                     >
-                        <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='grey' label={"noor khraisat"} />
-                        <Text>Noor Khraisat</Text>
+                        <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='black' label={user?.name} />
+                        <Text>{user?.name}</Text>
                     </Box>
                     <ListItem
                         title='profile'
@@ -59,10 +64,19 @@ export default function LoggedInContainer({ children }) {
                         }
 
                     />
-                     <ListItem
+                    <ListItem
                         title='/GetStudentsBySubject'
                         onPress={() => {
                             navigate("/GetStudentsBySubject");
+                            setOpen(false)
+                        }
+                        }
+
+                    />
+                     <ListItem
+                        title='All Students'
+                        onPress={() => {
+                            navigate("/AllStudents");
                             setOpen(false)
                         }
                         }
@@ -103,8 +117,8 @@ export default function LoggedInContainer({ children }) {
                         }
                         }
 
-                    /> 
-                     <ListItem
+                    />
+                    <ListItem
                         title='StudentSubjects'
                         onPress={() => {
                             navigate("/StudentSubjects");

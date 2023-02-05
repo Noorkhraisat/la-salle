@@ -21,13 +21,16 @@ export default function StudentMarks({ subjectId, setOpenModal }) {
         <View
             style={styles.container}
         >
+            <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>Reports</Text>
+
             <Box
                 style={{
                     display: 'flex',
-                    marginTop: 50,
+                    marginTop: 30,
                     justifyContent: 'space-around'
                 }}
             >
+
                 {allMarks?.length == 0
                     ? <Text>no Marks :(</Text>
 

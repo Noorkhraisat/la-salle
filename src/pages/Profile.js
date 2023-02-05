@@ -37,10 +37,11 @@ export default function Profile() {
                     justifyContent: 'space-around',
                     alignItems: 'center',
                     marginBottom: 0,
-                    marginTop: 100
+                    marginTop: 30
                 }
             }
             >
+                    <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>User profile</Text>
 
                 <Box
                     style={{
@@ -52,7 +53,7 @@ export default function Profile() {
                         alignItems: 'center'
                     }}
                 >
-                    
+
                     {errMessage && <Box
                         style={{
 
@@ -103,6 +104,7 @@ export default function Profile() {
                         editable={false}
                         style={{ width: '100%', margin: 3 }}
                     />
+                    
                 </Box>
 
                 <StatusBar style="auto" />

@@ -13,7 +13,7 @@ export default function StudentCard({ studentData }) {
             // }}
             style={{
                 flex: 1,
-                width: 180,
+                width: '90%',
                 margin: 8,
                 backgroundColor: '#17386a',
                 borderRadius: 5,

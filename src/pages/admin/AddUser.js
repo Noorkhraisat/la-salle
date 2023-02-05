@@ -1,15 +1,20 @@
-import { Box, Button, TextInput } from '@react-native-material/core';
+import { Box, Button, Text, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigate } from 'react-router-native';
 import firebase from '../../database/firebaseConfig';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { grades } from '../../mocks/mocks';
+import SelectDropdown from 'react-native-select-dropdown';
 
 export default function AddUser() {
     const [values, setValues] = useState({})
     const [open, setOpen] = useState(false)
+    const gradesValues = grades
+    const [openGrade, setOpenGrade] = useState(false)
+    const navigate = useNavigate()
 
     const data = [
         { label: 'Student', value: '1' },
@@ -18,10 +23,14 @@ export default function AddUser() {
     ];
     const dbRef = firebase.firestore().collection('users');
     const addUser = () => {
+        console.log(values);
         dbRef.add({
             ...values
         }).then((res) => {
             setValues({})
+            Alert.alert('Sucess message', res?.data?.message, [
+                { text: 'OK', onPress: () => navigate('/Dashboard') },
+            ]);
 
         })
             .catch((err) => {
@@ -43,11 +52,12 @@ export default function AddUser() {
                 }
             }
             >
+                <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>Add new user</Text>
 
                 <Box
                     style={{
-                        alignSelf: 'center',
-                        height: '60%',
+                        alignSelf: 'start',
+                        height: '70%',
                         display: 'flex',
                         padding: 16,
                         width: '100%',
@@ -57,7 +67,7 @@ export default function AddUser() {
 
 
                     <TextInput
-                        label='fullName'
+                        label='full Name'
                         color='#184a99'
                         style={{ width: '100%', margin: 3 }}
                         value={values?.name}
@@ -65,6 +75,40 @@ export default function AddUser() {
                             setValues((v) => { return { ...v, name: e } })
                         }}
                     />
+                    <SelectDropdown
+                        buttonStyle={{
+                            width: '100%',
+                            backgroundColor: '#f9f9f9',
+                            borderRadius: '1px',
+                            borderColor: "white",
+                            borderBottomColor: "red",
+                            margin: 8,
+
+                        }}
+                        buttonTextStyle={{
+                            textAlign: 'start',
+                            fontSize: 15,
+                        }}
+                        defaultButtonText='Select Role'
+                        onSelect={(selectedItem, index) => {
+                            console.log(selectedItem);
+                            setValues((v) => { return { ...v, role: selectedItem.value } })
+
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            // text represented after item is selected
+                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                            return selectedItem.label
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            // text represented for each item in dropdown
+                            // if data array is an array of objects then return item.property to represent item in dropdown
+                            return item.label
+                        }}
+                        data={data}
+                    />
+
+
 
                     <TextInput
                         label='Special Number'
@@ -75,43 +119,40 @@ export default function AddUser() {
                             setValues((v) => { return { ...v, specialNumber: e } })
                         }
                     />
-                    <DropDownPicker
-                        open={open}
-                        value={values?.role}
-                        labelProps={'ss'}
-                        items={data}
-                        placeholder="role"
-                        setOpen={setOpen}
-                        setValue={
-                            (e) => setValues((v) => { return { ...v, role: e() } })
-                        }
-                        // setItems={setItems}
-                        placeholderStyle={{
-                            color: "black",
-                            paddingLeft: 6,
-                            fontSize: 16
-                        }}
-                        theme="LIGHT"
-                        multiple={false}
 
-                        style={{
+                    <SelectDropdown
+                        buttonStyle={{
                             width: '100%',
                             backgroundColor: '#f9f9f9',
                             borderRadius: '1px',
                             borderColor: "white",
-                            borderBottomColor: "grey",
-                            margin: 3
+                            borderBottomColor: "red",
+                            margin: 8,
+
                         }}
-                    />
-                    <TextInput
-                        label='grade'
-                        color='#184a99'
-                        style={{ width: '100%', margin: 3 }}
-                        value={values?.grade}
-                        onChangeText={(e) => {
-                            setValues((v) => { return { ...v, grade: e } })
+                        buttonTextStyle={{
+                            textAlign: 'start',
+                            fontSize: 15,
                         }}
+                        defaultButtonText='Select Grade'
+                        onSelect={(selectedItem, index) => {
+                            console.log(selectedItem);
+                            setValues((v) => { return { ...v, grade: selectedItem.value } })
+
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            // text represented after item is selected
+                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                            return selectedItem.label
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            // text represented for each item in dropdown
+                            // if data array is an array of objects then return item.property to represent item in dropdown
+                            return item.label
+                        }}
+                        data={grades}
                     />
+
                     <TextInput
                         color='#184a99'
                         label='password'

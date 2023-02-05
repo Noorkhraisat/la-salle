@@ -36,11 +36,14 @@ export default function StudentHomeworks({ subjectId }) {
             style={styles.container}
         >
 
+            <Text style={{ marginTop: 30, paddingLeft: 24, fontSize: 22, fontWeight: 'bold' }}>Homeworks</Text>
 
             <Box
                 style={{
                     display: 'flex',
-                    marginTop: 50,
+                    marginTop: 30,
+                    alignItems:'center',
+                    width:'100%',
                     justifyContent: 'space-around'
                 }}
             >
@@ -48,7 +51,7 @@ export default function StudentHomeworks({ subjectId }) {
                     ? <Text>no Homewroks :(</Text>
 
                     : <FlatList
-                        style={{ marginBottom: 50 }}
+                        style={{ marginBottom: 50,width:'100%' }}
                         data={allSubjects}
                         renderItem={({ item, idx }) => (
                             <HomeWorkCard

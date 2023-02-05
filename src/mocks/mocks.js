@@ -85,3 +85,34 @@ export const services = [
     },
 
 ]
+export const grades = [
+    {
+        label: "grade 1",
+        value: "1"
+    },
+    {
+        label: "grade 2",
+        value: "2"
+    },
+    {
+        label: "grade 3",
+        value: "3"
+    }, {
+        label: "grade 4",
+        value: "4"
+    },
+    {
+        label: "grade 5",
+        value: "6"
+    }, {
+        label: "grade 6",
+        value: "6"
+    }, {
+        label: "grade 7",
+        value: "7"
+    }, {
+        label: "grade 8",
+        value: "8"
+    }
+
+]

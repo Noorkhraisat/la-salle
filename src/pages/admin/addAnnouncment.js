@@ -1,4 +1,4 @@
-import { Box, Button, TextInput } from '@react-native-material/core';
+import { Box, Button, Text, TextInput } from '@react-native-material/core';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
@@ -15,8 +15,8 @@ export default function AddAnnouncment() {
                     { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ]);
             }
-        }catch(e){
-            console.log("e::",e);
+        } catch (e) {
+            console.log("e::", e);
         }
     }
     return (
@@ -34,6 +34,7 @@ export default function AddAnnouncment() {
             }
             >
 
+                <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>Add Announcment</Text>
                 <Box
                     style={{
                         alignSelf: 'center',

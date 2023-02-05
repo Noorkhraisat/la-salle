@@ -12,7 +12,7 @@ export default function SubjectCard({ subject, title, icon, onclick, color = "#1
             //     // navigate("/AddUser")
             // }}
             style={{
-                padding:16,
+                padding: 16,
                 flex: 1,
                 width: "100%",
                 height: 100,
@@ -45,9 +45,9 @@ export default function SubjectCard({ subject, title, icon, onclick, color = "#1
                 <Text style={{
                     color: 'grey',
                     fontSize: 16
-                }}>{subject?.name}</Text>
+                }}>{subject?.teacher_r?.name}</Text>
             </Box>
-            
+
         </View >
     )
 }
