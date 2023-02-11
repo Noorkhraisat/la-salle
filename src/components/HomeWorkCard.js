@@ -4,15 +4,15 @@ import { Modal, Text, View } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import HomeworkSubmission from '../pages/student/HomeworkSubmission';
 
-export default function HomeWorkCard({ homework }) {
+export default function HomeWorkCard({ homework, studentDetails }) {
     const navigate = useNavigate()
     const [openModal, setOpenModal] = useState(false)
     return (
         <Pressable
-            onPress={() => { setOpenModal(true) }}
+            onPress={() => { !studentDetails?.id && setOpenModal(true) }}
             elevation={5}
             style={{
-                alignSelf:'center',
+                alignSelf: 'center',
                 padding: 24,
                 backgroundColor: "white",
                 flex: 1,
@@ -54,14 +54,14 @@ export default function HomeWorkCard({ homework }) {
                 }}>{homework?.description}</Text>
             </Box>
 
-            <Box style={{ width:"100%",display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:24 }}>
+            <Box style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 24 }}>
                 <Text style={{
                     color: 'grey',
                     fontSize: 12
                 }}>Due Date:{homework?.dueDate}</Text>
                 <Text style={{
                     color: 'grey',
-                    fontSize: 12 
+                    fontSize: 12
                 }}>{homework?.submitted ? "submitted" : "not submitted"}</Text>
             </Box>
         </Pressable >

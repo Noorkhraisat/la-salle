@@ -50,9 +50,9 @@ export const services = [
     },
     {
         id: 8,
-        name: "Work of the mounth",
+        name: "Work of the month",
         icon: "",
-        navigation: "",
+        navigation: "/WorkOfTheMonth",
         allowedTypes: ["2", "3"]
     },
     {
@@ -82,6 +82,20 @@ export const services = [
         icon: "",
         navigation: "/AddUser",
         allowedTypes: ["3"]
+    },
+    {
+        id: 13,
+        name: "All Teachers",
+        icon: "",
+        navigation: "/AllTeachers",
+        allowedTypes: ["5"]
+    },
+    {
+        id: 13,
+        name: "All Students",
+        icon: "",
+        navigation: "/AllStudents",
+        allowedTypes: ["5"]
     },
 
 ]
@@ -115,4 +129,53 @@ export const grades = [
         value: "8"
     }
 
+]
+export const years = [
+    {
+        label: "2022",
+        value: "2022"
+    }, {
+        label: "2023",
+        value: "2023"
+    },
+]
+export const month = [
+    {
+        label: "january",
+        value: "january"
+    },
+    {
+        label: "february",
+        value: "february"
+    }, {
+        label: "march",
+        value: "march"
+    }, {
+        label: "April",
+        value: "April"
+    }, {
+        label: "may",
+        value: "may"
+    }, {
+        label: "june",
+        value: "june"
+    }, {
+        label: "july",
+        value: "july"
+    }, {
+        label: "august",
+        value: "august"
+    }, {
+        label: "september",
+        value: "september"
+    }, {
+        label: "october",
+        value: "october"
+    }, {
+        label: "november",
+        value: "november"
+    }, {
+        label: "december",
+        value: "december"
+    },
 ]

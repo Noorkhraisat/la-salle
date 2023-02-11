@@ -91,11 +91,11 @@ export const getHomeworksBySubjectId = async (SubjectId) => {
     }
 
 }
-export const getHomeworksByGrade = async (SubjectId) => {
+export const getHomeworksByGrade = async (grade) => {
     try {
         const homeworks = []
 
-        const snapshot = await homewrokRef?.where("subject_r.grade", "==", SubjectId).get()
+        const snapshot = await homewrokRef?.where("subject_r.grade", "==", '7').get()
         if (snapshot.empty) {
             return { success: true, data: { homeworks: [], message: "no homeworks in the DB" } }
         }
@@ -109,7 +109,7 @@ export const getHomeworksByGrade = async (SubjectId) => {
         return { success: true, data: { homeworks: homeworks, message: "" } }
 
     } catch (e) {
-        console.log("error::", e);
+        console.log("error22::", e);
         return { success: false, data: {}, errMessage: "Something went Wrong" }
 
     }

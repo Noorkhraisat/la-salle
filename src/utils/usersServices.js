@@ -95,7 +95,55 @@ export const getStudentsByRole = async ({ role }) => {
         const snapshot = await userDbRef
             .where("role", "==", role).get()
         if (snapshot.empty) {
-            return { success: false, data: { users: [] }, errMessage: "no students found" }
+            return { success: false, data: { users: [] }, errMessage: "no user found" }
+        }
+        snapshot.forEach(doc => {
+            users.push({ id: doc.id, ...doc.data() })
+            console.log(doc.id, '=>', doc.data());
+
+        });
+
+        return { success: true, data: { users: users, message: "" } }
+
+    } catch (e) {
+        console.log("error::", e);
+        return { success: false, data: {}, errMessage: "Something went Wrong" }
+
+    }
+
+}
+export const getUsersByRoleAndSection = async ({ role, section }) => {
+    try {
+        const users = []
+
+        const snapshot = await userDbRef
+            .where("role", "==", role).where("section", "==", section).get()
+        if (snapshot.empty) {
+            return { success: false, data: { users: [] }, errMessage: "no user found" }
+        }
+        snapshot.forEach(doc => {
+            users.push({ id: doc.id, ...doc.data() })
+            console.log(doc.id, '=>', doc.data());
+
+        });
+
+        return { success: true, data: { users: users, message: "" } }
+
+    } catch (e) {
+        console.log("error::", e);
+        return { success: false, data: {}, errMessage: "Something went Wrong" }
+
+    }
+
+}
+export const getTeacherBysection = async ({ section }) => {
+    try {
+        const users = []
+
+        const snapshot = await userDbRef
+            .where("section", "==", section).get()
+        if (snapshot.empty) {
+            return { success: false, data: { users: [] }, errMessage: "no teacher found" }
         }
         snapshot.forEach(doc => {
             users.push({ id: doc.id, ...doc.data() })
@@ -116,7 +164,7 @@ export const getUserFromLocalStorage = async () => {
     console.log("getuser");
     const stringUser = await AsyncStorage.getItem('la-sall-user')
     console.log("getuser:return");
- 
+
     return JSON.parse(stringUser)
 
 }

@@ -1,26 +1,25 @@
 import { Box, Button } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Modal, StyleSheet, Text, View } from 'react-native'
-import AnnouncmentCard from '../../components/AnnouncmentCard'
-import PlanCard from '../../components/PlanCard'
-import { getPlansByTeacher } from '../../utils/lessonsPlanning'
-import { getAnnouncmentsFromDb } from '../../utils/remindersServices'
+import WorkCard from '../../components/WorkCard'
+import { getworksByTeacher } from '../../utils/monthWork'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
-import AddNewPlan from './AddNewPlan'
+import AddNewWork from './AddNewWork'
 
-export default function PlanningForLessons() {
-    const [announcemnts, setAnnouncemnts] = useState([])
+export default function WorkOfTheMonth({ teacherId }) {
+    const [works, setWork] = useState([])
     const [openModal, setopenModal] = useState(false)
 
-    const getAnnouncemnts = async () => {
-        const teacherData = await getUserFromLocalStorage()
-        const announcmentRes = await getPlansByTeacher(teacherData.id)
+    const getWorks = async () => {
 
-        if (!announcmentRes?.success) { return }
-        setAnnouncemnts(announcmentRes?.data?.plans)
+        const teacherData = await getUserFromLocalStorage()
+        const workRes = await getworksByTeacher(!!teacherId ? teacherId : teacherData.id)
+
+        if (!workRes?.success) { return }
+        setWork(workRes?.data?.works)
     }
     useEffect(() => {
-        getAnnouncemnts()
+        getWorks()
     }, [])
     return (
         <View
@@ -36,41 +35,44 @@ export default function PlanningForLessons() {
                     alignItems: "center"
                 }}
             >
-                <Button
-                    title="Add Plan"
-                    onPress={() => {
-                        setopenModal(true)
-                    }}
-                    style={{
-                        padding: 8,
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '95%',
-                        backgroundColor: "#193c71"
-                    }}
-                />
+
+                {!teacherId
+                    && <Text style={{ fontSize: 22, fontWeight: 'bold', paddingBottom: 24 }}>Work of the month</Text>}
+                {!teacherId
+                    && <Button
+                        title="Add"
+                        onPress={() => {
+                            setopenModal(true)
+                        }}
+                        style={{
+                            padding: 8,
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '95%',
+                            backgroundColor: "#193c71"
+                        }}
+                    />}
 
                 <Modal
                     animationType="slide"
                     // transparent={true}
                     visible={openModal}
                 >
-                    <AddNewPlan
+                    <AddNewWork
                         setOpenModal={setopenModal}
                     />
                 </Modal>
 
-                {announcemnts?.length == 0
-                    ? <Text>no Plans :(</Text>
+                {works?.length == 0
+                    ? <Text>no works added :(</Text>
 
                     : <FlatList
-                        style={{ marginBottom: 20,marginTop:20,width:"95%" }}
-                        data={announcemnts}
+                        style={{ marginBottom: 20, marginTop: 20, width: "95%" }}
+                        data={works}
                         renderItem={({ item, idx }) => (
-                            <View style={{ display: "flex", alignItems: "center" }}>
-
-                                <PlanCard
-                                    plan={item}
+                            <View style={{ display: "flex", alignItems: "center", }}>
+                                <WorkCard
+                                    work={item}
                                 />
 
                             </View>

@@ -98,7 +98,7 @@ export default function LoginForm() {
                     }
 
                     <TextInput
-                        label='UserName'
+                        label='Special Number'
                         color='#184a99'
                         style={{ width: '100%', margin: 3 }}
                         value={userName}

@@ -6,15 +6,15 @@ import HomeWorkCard from '../../components/HomeWorkCard'
 import { getHomeworksByGrade, getHomeworksBySubjectId, getSubmittedHomeWroksByStudentRef } from '../../utils/homewrokServices'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
 
-export default function StudentHomeworks({ subjectId }) {
+export default function StudentHomeworks({ studentDetails }) {
     const location = useLocation()
     const [allSubjects, setAllsubjects] = useState([])
     const [whereTogo, setWhereToGo] = useState("homeworks")
     const getSubjects = async () => {
         try {
             const studentData = await getUserFromLocalStorage()
-            const homeworksRes = await getHomeworksByGrade(studentData?.grade)
-            const submittedHomeWroks = await getSubmittedHomeWroksByStudentRef(studentData?.id)
+            const homeworksRes = await getHomeworksByGrade(studentDetails?.grade || studentData?.grade)
+            const submittedHomeWroks = await getSubmittedHomeWroksByStudentRef(studentDetails?.id || studentData?.id)
 
             console.log("testttttttttttt::", submittedHomeWroks?.data?.homeworks);
             if (!homeworksRes?.success) { return }
@@ -42,8 +42,8 @@ export default function StudentHomeworks({ subjectId }) {
                 style={{
                     display: 'flex',
                     marginTop: 30,
-                    alignItems:'center',
-                    width:'100%',
+                    alignItems: 'center',
+                    width: '100%',
                     justifyContent: 'space-around'
                 }}
             >
@@ -51,10 +51,11 @@ export default function StudentHomeworks({ subjectId }) {
                     ? <Text>no Homewroks :(</Text>
 
                     : <FlatList
-                        style={{ marginBottom: 50,width:'100%' }}
+                        style={{ marginBottom: 50, width: '100%' }}
                         data={allSubjects}
                         renderItem={({ item, idx }) => (
                             <HomeWorkCard
+                                studentDetails={studentDetails}
                                 homework={item}
                             />
                         )}

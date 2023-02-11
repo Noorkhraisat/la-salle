@@ -6,7 +6,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { useLocation, useNavigate } from 'react-router-native'
 import StudentCard from '../../components/StudentCard'
 import { grades } from '../../mocks/mocks'
-import { getStudentsByRole, getUserFromLocalStorage } from '../../utils/usersServices'
+import { getStudentsByRole, getUserFromLocalStorage, getUsersByRoleAndSection } from '../../utils/usersServices'
 import StudentsDetails from '../director/StudentsDetails'
 
 export default function AllStudents() {
@@ -22,7 +22,8 @@ export default function AllStudents() {
 
     const getSubjects = async () => {
         console.log("subjectDatasubjectData::", subjectData);
-        const subjectsRes = await getStudentsByRole({ role: '1' })
+        const user = await getUserFromLocalStorage()
+        const subjectsRes = await getUsersByRoleAndSection('1', user?.section)
         if (!subjectsRes?.success) { return }
         setAllsubjects(subjectsRes?.data?.users)
         setFilteredStudents(subjectsRes?.data?.users)

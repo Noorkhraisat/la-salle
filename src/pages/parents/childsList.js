@@ -1,47 +1,41 @@
 import { Box, TextInput } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
-import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useLocation, useNavigate } from 'react-router-native'
 import StudentCard from '../../components/StudentCard'
 import { grades } from '../../mocks/mocks'
-import { getStudentsByRole, getUserFromLocalStorage } from '../../utils/usersServices'
-import StudentsDetails from '../director/StudentsDetails'
+import { getStudentsByRole, getUserFromLocalStorage, getUsersByRoleAndSection } from '../../utils/usersServices'
 
-export default function AllStudents() {
+export default function childsList() {
     const location = useLocation()
     const navigate = useNavigate()
     const [selectedStudent, setSelectedStudent] = useState()
     const [searchTerm, setSearchTerm] = useState('')
     const [grade, setGrade] = useState('')
-    const [openModal, setopenModal] = useState(false)
+
+
     const subjectData = location?.state?.subjectData
     const [allSubjects, setAllsubjects] = useState([])
     const [filteredStudents, setFilteredStudents] = useState([])
 
     const getSubjects = async () => {
         console.log("subjectDatasubjectData::", subjectData);
-        const subjectsRes = await getStudentsByRole({ role: '1' })
+        const subjectsRes = await getUsersByRoleAndSection({ ID: "" })
         if (!subjectsRes?.success) { return }
         setAllsubjects(subjectsRes?.data?.users)
         setFilteredStudents(subjectsRes?.data?.users)
     }
     const filiterStudents = (searchTerm, grade) => {
         // if (!searchTerm) { setFilteredStudents(allSubjects); return }
-        let filtered = allSubjects;
-        if (!!searchTerm) {
-            filtered = allSubjects?.filter(item => (
-                ((item?.name?.includes(searchTerm)
-                    || item?.specialNumber?.includes(searchTerm))
-                ))
-            )
-        }
-        if (!!grade) {
-            filtered = filtered.filter((item) => {
-                return item.grade == grade
-            })
-        }
+        const filtered = allSubjects?.filter(item => (
+            ((item?.name?.includes(searchTerm)
+                || item?.specialNumber?.includes(searchTerm))
+                && !grade ? true : item?.grade == grade
+
+            ))
+        )
         setFilteredStudents(filtered)
     }
     useEffect(() => {
@@ -52,16 +46,6 @@ export default function AllStudents() {
             <View
                 style={styles.container}
             >
-                <Modal
-                    animationType="slide"
-                    // transparent={true}
-                    visible={openModal}
-                >
-                    <StudentsDetails
-                        studentData={selectedStudent}
-                        setOpenModal={setopenModal}
-                    />
-                </Modal>
                 <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>All Students</Text>
 
                 <Box
@@ -82,7 +66,7 @@ export default function AllStudents() {
                     />
                     <SelectDropdown
                         buttonStyle={{
-                            width: '90%',
+                            width: '100%',
                             backgroundColor: '#f9f9f9',
                             borderRadius: '1px',
                             borderColor: "white",
@@ -111,10 +95,7 @@ export default function AllStudents() {
                             // if data array is an array of objects then return item.property to represent item in dropdown
                             return item.label
                         }}
-                        data={[{
-                            label: "Select Grade",
-                            value: ""
-                        }, ...grades]}
+                        data={grades}
                     />
                     {filteredStudents?.length == 0
                         ? <Text>no Students :(</Text>
@@ -125,9 +106,7 @@ export default function AllStudents() {
                             renderItem={({ item, idx }) => (
                                 <Pressable
                                     onPress={() => {
-
                                         setSelectedStudent(item)
-                                        setopenModal(true)
                                     }}
                                     style={{
                                         display: "flex",

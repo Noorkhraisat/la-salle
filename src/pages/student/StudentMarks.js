@@ -4,12 +4,12 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { getMarksByStudent } from '../../utils/marksServices'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
 
-export default function StudentMarks({ subjectId, setOpenModal }) {
+export default function StudentMarks({ studentId }) {
     const [allMarks, setAllMarks] = useState([])
     // const [whereTogo, setWhereToGo] = useState("homeworks")
     const getMarks = async () => {
         const studentData = await getUserFromLocalStorage()
-        const marksRes = await getMarksByStudent(studentData?.id)
+        const marksRes = await getMarksByStudent(studentId || studentData?.id)
         console.log("marksRes::", marksRes);
         if (!marksRes?.success) { return }
         setAllMarks(marksRes?.data?.marks)
@@ -21,7 +21,7 @@ export default function StudentMarks({ subjectId, setOpenModal }) {
         <View
             style={styles.container}
         >
-            <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>Reports</Text>
+            {!studentId && <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>Reports</Text>}
 
             <Box
                 style={{

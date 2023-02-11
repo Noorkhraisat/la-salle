@@ -7,7 +7,7 @@ import firebase from '../database/firebaseConfig';
 import { getUserBySpecialNumberAndPassword, getUserFromLocalStorage, setUserToLocalStorage } from '../utils/usersServices';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default function Profile() {
+export default function Profile({ userDetails }) {
     const [errMessage, setErrmessage] = useState('')
     const [userData, setUserData] = useState()
     const navigate = useNavigate()
@@ -15,7 +15,7 @@ export default function Profile() {
 
     const getUserData = async () => {
         const user = await getUserFromLocalStorage()
-        setUserData(user)
+        setUserData(userDetails || user)
     }
     useEffect(() => {
         getUserData()
@@ -24,12 +24,14 @@ export default function Profile() {
 
         <KeyboardAwareScrollView
             style={{
+                width:"100%",
                 minHeight: "100%"
 
             }}
         >
             <View style={
                 {
+                    width: '100%',
 
                     height: '100%',
                     display: 'flex',
@@ -41,8 +43,8 @@ export default function Profile() {
                 }
             }
             >
-                    <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>User profile</Text>
-
+                {!userDetails && <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>User profile</Text>
+                }
                 <Box
                     style={{
                         alignSelf: 'center',
@@ -104,7 +106,7 @@ export default function Profile() {
                         editable={false}
                         style={{ width: '100%', margin: 3 }}
                     />
-                    
+
                 </Box>
 
                 <StatusBar style="auto" />

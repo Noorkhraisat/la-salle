@@ -1,27 +1,27 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { IconComponentProvider, Text } from '@react-native-material/core';
+import { IconComponentProvider } from '@react-native-material/core';
 import { ThemeProvider } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NativeRouter, Route, Routes } from 'react-router-native';
-import Header from './src/components/Header';
 import LoggedInContainer from './src/components/loggedInContainer';
 import AddAnnouncment from './src/pages/admin/addAnnouncment';
 import AddSubject from './src/pages/admin/AddSubject';
 import AddUser from './src/pages/admin/AddUser';
 import AllStudents from './src/pages/admin/AllStudents';
 import Dashboard from './src/pages/Dashboard';
+import AllTeachers from './src/pages/director/AllTeachers';
 import LoginForm from './src/pages/LoginForm';
 import Profile from './src/pages/Profile';
 import Announcments from './src/pages/student/Announcments';
 import GetStudentSubject from './src/pages/student/getStudentSubject';
 import StudentHomeworks from './src/pages/student/StudentHomeworks';
 import StudentMarks from './src/pages/student/StudentMarks';
-import AddHomework from './src/pages/teacher/AddHomework';
 import GetHomeWorksByTeacher from './src/pages/teacher/GetHomeWorksByTeacher';
 import GetStudentsBySubject from './src/pages/teacher/getStudentsBySubject';
 import GetSubjectsByTeacher from './src/pages/teacher/getSubjectsByTeacher';
 import PlanningForLessons from './src/pages/teacher/PlanningForLessons';
+import WorkOfTheMonth from './src/pages/teacher/WorkOfTheMonth';
 export default function App() {
   const theme = {
     colors: {
@@ -82,6 +82,9 @@ export default function App() {
               <Route path="/StudentMarks" element={<LoggedInContainer><StudentMarks /></LoggedInContainer>} />
               <Route path="/PlanningForLessons" element={<LoggedInContainer><PlanningForLessons /></LoggedInContainer>} />
               <Route path="/AllStudents" element={<LoggedInContainer><AllStudents /></LoggedInContainer>} />
+              <Route path="/AllTeachers" element={<LoggedInContainer><AllTeachers /></LoggedInContainer>} />
+              <Route path="/WorkOfTheMonth" element={<LoggedInContainer><WorkOfTheMonth /></LoggedInContainer>} />
+
 
               <Route path="/Profile" element={<LoggedInContainer><Profile /></LoggedInContainer>} />
 

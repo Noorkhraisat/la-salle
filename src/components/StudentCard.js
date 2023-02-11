@@ -20,7 +20,7 @@ export default function StudentCard({ studentData }) {
                 display: 'flex',
                 justifyContent: 'space-around',
                 alignItems: 'start',
-                padding:8
+                padding:16
             }}>
 
 
@@ -28,7 +28,8 @@ export default function StudentCard({ studentData }) {
             <Box
             style={{
                 display:"flex",
-                flexDirection:'row'
+                flexDirection:'row',
+                paddingBottom:16
             }}
             >
                 <Text style={{
@@ -50,7 +51,7 @@ export default function StudentCard({ studentData }) {
                 <Text style={{
                     color: 'white',
                     fontSize: 16
-                }}>Student Number: </Text>
+                }}>Special Number: </Text>
                 <Text style={{
                     color: 'grey',
                     fontSize: 16
