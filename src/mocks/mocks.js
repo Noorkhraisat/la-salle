@@ -6,13 +6,13 @@ export const services = [
         navigation: "/StudentSubjects",
         allowedTypes: ["1"]
     },
-    {
-        id: 3,
-        name: "Reminders",
-        icon: "",
-        navigation: "",
-        allowedTypes: ["1"]
-    },
+    // {
+    //     id: 3,
+    //     name: "Reminders",
+    //     icon: "",
+    //     navigation: "",
+    //     allowedTypes: ["1"]
+    // },
     {
         id: 2,
         name: "Reports",
