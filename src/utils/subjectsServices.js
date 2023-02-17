@@ -71,7 +71,7 @@ export const getSubjectsByTeacherRef = async (teacherRef) => {
 
         const subjects = []
 
-        const snapshot = await subjectref?.where("teacher_r", "==", teacherRef).get()
+        const snapshot = await subjectref?.where("teacher_r.id", "==", teacherRef).get()
         if (snapshot.empty) {
             return { success: true, data: { subjects: [], message: "no subjects in the DB" } }
         }

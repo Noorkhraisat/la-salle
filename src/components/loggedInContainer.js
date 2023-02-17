@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Drawer } from 'react-native-material-drawer';
 import { useNavigate } from 'react-router-native';
+import { services } from '../mocks/mocks';
 import { getUserFromLocalStorage, logoutUser } from '../utils/usersServices';
 import Header from './Header';
 export default function LoggedInContainer({ children }) {
@@ -40,7 +41,7 @@ export default function LoggedInContainer({ children }) {
                             flexDirection: "row",
                             alignItems: 'center',
                             marginRight: 8,
-                            marginBottom:20
+                            marginBottom: 20
                         }}
                     >
                         <Avatar style={{ marginRight: 8, marginLeft: 8 }} color='black' label={user?.name} />
@@ -64,16 +65,8 @@ export default function LoggedInContainer({ children }) {
                         }
 
                     />
-                    <ListItem
-                        title='/GetStudentsBySubject'
-                        onPress={() => {
-                            navigate("/GetStudentsBySubject");
-                            setOpen(false)
-                        }
-                        }
 
-                    />
-                     <ListItem
+                    <ListItem
                         title='All Students'
                         onPress={() => {
                             navigate("/AllStudents");
@@ -82,51 +75,21 @@ export default function LoggedInContainer({ children }) {
                         }
 
                     />
-                    <ListItem
-                        title='/getSubjectsByTeacher'
-                        onPress={() => {
-                            navigate("/getSubjectsByTeacher");
-                            setOpen(false)
-                        }
-                        }
 
-                    />
-                    <ListItem
-                        title='add user'
-                        onPress={() => {
-                            navigate("/AddUser");
-                            setOpen(false)
-                        }
-                        }
+                    {
+                        services?.filter((item) => item?.allowedTypes?.includes(user?.role)).map((item) => {
+                            return <ListItem
+                                title={item?.name}
+                                onPress={async () => {
+                                    await logoutUser()
+                                    navigate(item?.navigation);
+                                    setOpen(false)
+                                }}
 
-                    />
-                    <ListItem
-                        title='add subject'
-                        onPress={() => {
-                            navigate("/AddSubject");
-                            setOpen(false)
-                        }
-                        }
+                            />
+                        })
+                    }
 
-                    />
-                    <ListItem
-                        title='add reminders'
-                        onPress={() => {
-                            navigate("/addAnnouncment");
-                            setOpen(false)
-                        }
-                        }
-
-                    />
-                    <ListItem
-                        title='StudentSubjects'
-                        onPress={() => {
-                            navigate("/StudentSubjects");
-                            setOpen(false)
-                        }
-                        }
-
-                    />
                     <ListItem
                         title='logout'
                         onPress={async () => {

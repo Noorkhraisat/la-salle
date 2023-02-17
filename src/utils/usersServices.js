@@ -112,12 +112,13 @@ export const getStudentsByRole = async ({ role }) => {
     }
 
 }
-export const getUsersByRoleAndSection = async ({ role, section }) => {
+export const getUsersByRoleAndSection = async (role, section) => {
     try {
         const users = []
 
         const snapshot = await userDbRef
-            .where("role", "==", role).where("section", "==", section).get()
+            .where("role", "==", role)
+            .where("section", "==", section).get()
         if (snapshot.empty) {
             return { success: false, data: { users: [] }, errMessage: "no user found" }
         }

@@ -36,7 +36,7 @@ export default function AddUser() {
     const dbRef = firebase.firestore().collection('users');
     const addUser = () => {
         console.log(values);
-        if (values?.role == '1') { values.section = null }
+        // if (values?.role == '1') { values.section = null }
         if (values?.role == '2') { values.grade = null }
 
         dbRef.add({
@@ -144,7 +144,7 @@ export default function AddUser() {
                     />
 
                     {
-                        values?.role == '2' || values?.role == '4' || values?.role == '1'
+                        (values?.role == '2' || values?.role == '4' || values?.role == '1')
                         && <SelectDropdown
                             buttonStyle={{
                                 width: '100%',
@@ -232,7 +232,7 @@ export default function AddUser() {
                             buttonTextAfterSelection={(selectedItem, index) => {
                                 // text represented after item is selected
                                 // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                return item.name + " | " + item.specialNumber
+                                return selectedItem.name + " | " + selectedItem.specialNumber
                             }}
                             rowTextForSelection={(item, index) => {
                                 // text represented for each item in dropdown

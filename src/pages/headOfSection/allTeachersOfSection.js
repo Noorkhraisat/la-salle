@@ -2,12 +2,13 @@ import { Box, TextInput } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Spinner from 'react-native-loading-spinner-overlay'
 import { useLocation, useNavigate } from 'react-router-native'
 import StudentCard from '../../components/StudentCard'
 import { getStudentsByRole, getUserFromLocalStorage, getUsersByRoleAndSection } from '../../utils/usersServices'
-import TeacherDetails from './TeacherDetails'
+import TeacherDetails from "../director/TeacherDetails"
 
-export default function AllTeachers() {
+export default function AllTeachersOfSection() {
     const location = useLocation()
     const [selectedTeacher, setSelctedTeacher] = useState()
     const [searchTerm, setSearchTerm] = useState('')
@@ -16,14 +17,21 @@ export default function AllTeachers() {
     const [allTeachers, setAllTeachers] = useState([])
     const [filteredTeachers, setFilteredTeachers] = useState([])
     const [openModal, setopenModal] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const getTeachers = async () => {
+        setLoading(true)
         console.log("subjectDatasubjectData::", subjectData);
         const user = await getUserFromLocalStorage()
         const teacherRes = await getUsersByRoleAndSection('2', user?.section)
-        if (!teacherRes?.success) { return }
+        if (!teacherRes?.success) {
+            setLoading(false)
+            return
+        }
         setAllTeachers(teacherRes?.data?.users)
         setFilteredTeachers(teacherRes?.data?.users)
+        setLoading(false)
+
     }
     const filiterTeachers = (searchTerm, grade) => {
         if (!searchTerm) { setFilteredTeachers(allTeachers); return }
@@ -41,65 +49,72 @@ export default function AllTeachers() {
     }, [])
     return (
         <KeyboardAwareScrollView>
-            <View
-                style={styles.container}
-            >
-                <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>All Teachers</Text>
-                <Modal
-                    animationType="slide"
-                    // transparent={true}
-                    visible={openModal}
-                >
-                    <TeacherDetails
-                        teacherData={selectedTeacher}
-                        setOpenModal={setopenModal}
+            {
+                loading
+                    ? <Spinner
+                        visible={loading}
+                        textContent={'Loading...'}
+                        textStyle={styles.spinnerTextStyle}
                     />
-                </Modal>
-                <Box
-                    style={{
-                        display: 'flex',
-                        marginTop: 50,
-                        justifyContent: 'space-around',
-                        width: '100%',
-                        alignItems: 'center'
-                    }}
-                >
-                    <TextInput
-                        label='Search'
-                        value={searchTerm}
-                        onChangeText={(e) => { filiterTeachers(e, grade), setSearchTerm(e) }}
-                        color='#184a99'
-                        style={{ width: '90%', margin: 3 }}
-                    />
-                    {filteredTeachers?.length == 0
-                        ? <Text>no Teachers :(</Text>
+                    : <View
+                        style={styles.container}
+                    >
+                        <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>All Teachers</Text>
+                        <Modal
+                            animationType="slide"
+                            // transparent={true}
+                            visible={openModal}
+                        >
+                            <TeacherDetails
+                                teacherData={selectedTeacher}
+                                setOpenModal={setopenModal}
+                            />
+                        </Modal>
+                        <Box
+                            style={{
+                                display: 'flex',
+                                marginTop: 50,
+                                justifyContent: 'space-around',
+                                width: '100%',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <TextInput
+                                label='Search'
+                                value={searchTerm}
+                                onChangeText={(e) => { filiterTeachers(e, grade), setSearchTerm(e) }}
+                                color='#184a99'
+                                style={{ width: '90%', margin: 3 }}
+                            />
+                            {filteredTeachers?.length == 0
+                                ? <Text>no Teachers :(</Text>
 
-                        : <FlatList
-                            style={{ marginBottom: 0, width: '100%' }}
-                            data={filteredTeachers}
-                            renderItem={({ item, idx }) => (
-                                <Pressable
-                                    onPress={() => {
-                                        setSelctedTeacher(item)
-                                        setopenModal(true)
-                                    }}
-                                    style={{
-                                        display: "flex",
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <StudentCard
-                                        studentData={item}
-                                    />
-                                </Pressable>
-                            )}
-                            //Setting the number of column
-                            numColumns={1}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    }
-                </Box>
-            </View>
+                                : <FlatList
+                                    style={{ marginBottom: 0, width: '100%' }}
+                                    data={filteredTeachers}
+                                    renderItem={({ item, idx }) => (
+                                        <Pressable
+                                            onPress={() => {
+                                                setSelctedTeacher(item)
+                                                setopenModal(true)
+                                            }}
+                                            style={{
+                                                display: "flex",
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <StudentCard
+                                                studentData={item}
+                                            />
+                                        </Pressable>
+                                    )}
+                                    //Setting the number of column
+                                    numColumns={1}
+                                    keyExtractor={(item, index) => index.toString()}
+                                />
+                            }
+                        </Box>
+                    </View>}
         </KeyboardAwareScrollView>
     )
 }

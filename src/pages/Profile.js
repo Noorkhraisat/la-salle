@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-native';
 import firebase from '../database/firebaseConfig';
 import { getUserBySpecialNumberAndPassword, getUserFromLocalStorage, setUserToLocalStorage } from '../utils/usersServices';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { roles, sections } from '../mocks/mocks';
 
 export default function Profile({ userDetails }) {
     const [errMessage, setErrmessage] = useState('')
@@ -16,6 +17,7 @@ export default function Profile({ userDetails }) {
     const getUserData = async () => {
         const user = await getUserFromLocalStorage()
         setUserData(userDetails || user)
+        console.log(roles);
     }
     useEffect(() => {
         getUserData()
@@ -24,7 +26,7 @@ export default function Profile({ userDetails }) {
 
         <KeyboardAwareScrollView
             style={{
-                width:"100%",
+                width: "100%",
                 minHeight: "100%"
 
             }}
@@ -82,7 +84,7 @@ export default function Profile({ userDetails }) {
                         editable={false}
 
                     />
-                    <TextInput
+                    {userData?.role == '1' && <TextInput
                         editable={false}
                         color='#184a99'
                         label='Grade'
@@ -90,15 +92,16 @@ export default function Profile({ userDetails }) {
                         style={{ width: '100%', margin: 3 }}
                         readOnly={true}
 
-                    />
+                    />}
                     <TextInput
                         editable={false}
                         label='role'
                         color='#184a99'
                         style={{ width: '100%', margin: 3 }}
-                        value={userData?.role}
+                        value={roles?.find((item) => item?.value == userData?.role)?.label}
                         readOnly={true}
                     />
+                    
                     <TextInput
                         color='#184a99'
                         label='Special Number'

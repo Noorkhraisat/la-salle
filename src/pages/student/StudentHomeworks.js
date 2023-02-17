@@ -5,16 +5,20 @@ import { useLocation } from 'react-router-native'
 import HomeWorkCard from '../../components/HomeWorkCard'
 import { getHomeworksByGrade, getHomeworksBySubjectId, getSubmittedHomeWroksByStudentRef } from '../../utils/homewrokServices'
 import { getUserFromLocalStorage } from '../../utils/usersServices'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function StudentHomeworks({ studentDetails }) {
     const location = useLocation()
     const [allSubjects, setAllsubjects] = useState([])
-    const [whereTogo, setWhereToGo] = useState("homeworks")
+    const [loading, setLoading] = useState(true)
+
     const getSubjects = async () => {
+        setLoading(true)
         try {
             const studentData = await getUserFromLocalStorage()
             const homeworksRes = await getHomeworksByGrade(studentDetails?.grade || studentData?.grade)
             const submittedHomeWroks = await getSubmittedHomeWroksByStudentRef(studentDetails?.id || studentData?.id)
+            console.log("testttttttttttt::", studentDetails?.grade || studentData?.grade);
 
             console.log("testttttttttttt::", submittedHomeWroks?.data?.homeworks);
             if (!homeworksRes?.success) { return }
@@ -27,45 +31,55 @@ export default function StudentHomeworks({ studentDetails }) {
             })
             setAllsubjects(homewrokWithSubmittedFlag)
         } catch (e) { }
+        setLoading(false)
     }
     useEffect(() => {
         getSubjects()
     }, [])
     return (
-        <View
-            style={styles.container}
-        >
+        <>
+            {loading
+                ? <Spinner
+                    visible={loading}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
 
-            <Text style={{ marginTop: 30, paddingLeft: 24, fontSize: 22, fontWeight: 'bold' }}>Homeworks</Text>
+                : <View
+                    style={styles.container}
+                >
 
-            <Box
-                style={{
-                    display: 'flex',
-                    marginTop: 30,
-                    alignItems: 'center',
-                    width: '100%',
-                    justifyContent: 'space-around'
-                }}
-            >
-                {allSubjects?.length == 0
-                    ? <Text>no Homewroks :(</Text>
+                    <Text style={{ marginTop: 30, paddingLeft: 24, fontSize: 22, fontWeight: 'bold' }}>Homeworks</Text>
 
-                    : <FlatList
-                        style={{ marginBottom: 50, width: '100%' }}
-                        data={allSubjects}
-                        renderItem={({ item, idx }) => (
-                            <HomeWorkCard
-                                studentDetails={studentDetails}
-                                homework={item}
+                    <Box
+                        style={{
+                            display: 'flex',
+                            marginTop: 30,
+                            alignItems: 'center',
+                            width: '100%',
+                            justifyContent: 'space-around'
+                        }}
+                    >
+                        {allSubjects?.length == 0
+                            ? <Text>no Homewroks :(</Text>
+
+                            : <FlatList
+                                style={{ marginBottom: 50, width: '100%' }}
+                                data={allSubjects}
+                                renderItem={({ item, idx }) => (
+                                    <HomeWorkCard
+                                        studentDetails={studentDetails}
+                                        homework={item}
+                                    />
+                                )}
+                                //Setting the number of column
+                                numColumns={1}
+                                keyExtractor={(item, index) => index.toString()}
                             />
-                        )}
-                        //Setting the number of column
-                        numColumns={1}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                }
-            </Box>
-        </View>
+                        }
+                    </Box>
+                </View>}
+        </>
     )
 }
 const styles = StyleSheet.create({

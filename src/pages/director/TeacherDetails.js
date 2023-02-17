@@ -42,7 +42,7 @@ export default function TeacherDetails({ setOpenModal, teacherData }) {
                 <Button
                     color={selectedTab == 2 ? 'blue' : 'black'}
                     variant='text'
-                    title='Teacher sworks'
+                    title='Teacher works'
                     onPress={() => {
                         setSelectedTab(2)
                     }}

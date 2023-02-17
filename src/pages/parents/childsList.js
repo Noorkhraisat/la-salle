@@ -1,52 +1,48 @@
 import { Box, TextInput } from '@react-native-material/core'
 import React, { useEffect, useState } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useLocation, useNavigate } from 'react-router-native'
 import StudentCard from '../../components/StudentCard'
 import { grades } from '../../mocks/mocks'
-import { getStudentsByRole, getUserFromLocalStorage, getUsersByRoleAndSection } from '../../utils/usersServices'
+import { getStudentsByRole, getUserFromLocalStorage } from '../../utils/usersServices'
+import StudentsDetails from '../director/StudentsDetails'
 
-export default function childsList() {
+export default function AllStudents() {
     const location = useLocation()
     const navigate = useNavigate()
     const [selectedStudent, setSelectedStudent] = useState()
     const [searchTerm, setSearchTerm] = useState('')
     const [grade, setGrade] = useState('')
-
-
+    const [openModal, setopenModal] = useState(false)
     const subjectData = location?.state?.subjectData
-    const [allSubjects, setAllsubjects] = useState([])
     const [filteredStudents, setFilteredStudents] = useState([])
+    const [childs, setChilds] = useState([])
 
-    const getSubjects = async () => {
-        console.log("subjectDatasubjectData::", subjectData);
-        const subjectsRes = await getUsersByRoleAndSection({ ID: "" })
-        if (!subjectsRes?.success) { return }
-        setAllsubjects(subjectsRes?.data?.users)
-        setFilteredStudents(subjectsRes?.data?.users)
-    }
-    const filiterStudents = (searchTerm, grade) => {
-        // if (!searchTerm) { setFilteredStudents(allSubjects); return }
-        const filtered = allSubjects?.filter(item => (
-            ((item?.name?.includes(searchTerm)
-                || item?.specialNumber?.includes(searchTerm))
-                && !grade ? true : item?.grade == grade
-
-            ))
-        )
-        setFilteredStudents(filtered)
+    const getChild = async () => {
+        const user = await getUserFromLocalStorage()
+        setChilds([].concat(user.child))
     }
     useEffect(() => {
-        getSubjects()
+        getChild()
     }, [])
     return (
         <KeyboardAwareScrollView>
             <View
                 style={styles.container}
             >
-                <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>All Students</Text>
+                <Modal
+                    animationType="slide"
+                    // transparent={true}
+                    visible={openModal}
+                >
+                    <StudentsDetails
+                        studentData={selectedStudent}
+                        setOpenModal={setopenModal}
+                    />
+                </Modal>
+                <Text style={{ marginTop: 30, paddingLeft: 16, fontSize: 22, fontWeight: 'bold' }}>My Childs</Text>
 
                 <Box
                     style={{
@@ -57,56 +53,19 @@ export default function childsList() {
                         alignItems: 'center'
                     }}
                 >
-                    <TextInput
-                        label='Search'
-                        value={searchTerm}
-                        onChangeText={(e) => { filiterStudents(e, grade), setSearchTerm(e) }}
-                        color='#184a99'
-                        style={{ width: '90%', margin: 3 }}
-                    />
-                    <SelectDropdown
-                        buttonStyle={{
-                            width: '100%',
-                            backgroundColor: '#f9f9f9',
-                            borderRadius: '1px',
-                            borderColor: "white",
-                            borderBottomColor: "red",
-                            margin: 8,
-
-                        }}
-                        buttonTextStyle={{
-                            textAlign: 'start',
-                            fontSize: 15,
-                        }}
-                        defaultButtonText='Select Grade'
-                        onSelect={(selectedItem, index) => {
-                            console.log(selectedItem);
-                            setGrade(selectedItem?.value)
-                            filiterStudents(searchTerm, selectedItem?.value)
-
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            // text represented after item is selected
-                            // if data array is an array of objects then return selectedItem.property to render after item is selected
-                            return selectedItem.label
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            // text represented for each item in dropdown
-                            // if data array is an array of objects then return item.property to represent item in dropdown
-                            return item.label
-                        }}
-                        data={grades}
-                    />
-                    {filteredStudents?.length == 0
-                        ? <Text>no Students :(</Text>
+                 
+                    {childs?.length == 0
+                        ? <Text>no childs :(</Text>
 
                         : <FlatList
                             style={{ marginBottom: 0, width: '100%' }}
-                            data={filteredStudents}
+                            data={childs}
                             renderItem={({ item, idx }) => (
                                 <Pressable
                                     onPress={() => {
+
                                         setSelectedStudent(item)
+                                        setopenModal(true)
                                     }}
                                     style={{
                                         display: "flex",

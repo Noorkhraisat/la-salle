@@ -95,7 +95,7 @@ export const getHomeworksByGrade = async (grade) => {
     try {
         const homeworks = []
 
-        const snapshot = await homewrokRef?.where("subject_r.grade", "==", '7').get()
+        const snapshot = await homewrokRef?.where("subject_r.grade", "==", grade).get()
         if (snapshot.empty) {
             return { success: true, data: { homeworks: [], message: "no homeworks in the DB" } }
         }
@@ -119,7 +119,7 @@ export const addStudenthomeWroktoDb = (homeworkData) => {
     const res = studentHomeworkref.add({
         ...homeworkData
     }).then((res) => {
-        return { success: true, data: { message: "subject added successfuly" } }
+        return { success: true, data: { message: "homework submitted successfuly" } }
     })
         .catch((err) => {
             console.error("Error found: ", err);

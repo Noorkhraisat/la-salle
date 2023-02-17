@@ -11,7 +11,10 @@ import AddUser from './src/pages/admin/AddUser';
 import AllStudents from './src/pages/admin/AllStudents';
 import Dashboard from './src/pages/Dashboard';
 import AllTeachers from './src/pages/director/AllTeachers';
+import AllStudentsOfSection from './src/pages/headOfSection/AllStudentsOfSection';
+import AllTeachersOfSection from './src/pages/headOfSection/AllTeachersOfSection';
 import LoginForm from './src/pages/LoginForm';
+import ChildsList from './src/pages/parents/ChildsList';
 import Profile from './src/pages/Profile';
 import Announcments from './src/pages/student/Announcments';
 import GetStudentSubject from './src/pages/student/getStudentSubject';
@@ -37,6 +40,8 @@ export default function App() {
   const [open, setOpen] = useState(false)
   // const navigate = useNavigate()
   console.warn = () => { }
+  console.error = () => { }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -85,6 +90,9 @@ export default function App() {
               <Route path="/AllTeachers" element={<LoggedInContainer><AllTeachers /></LoggedInContainer>} />
               <Route path="/WorkOfTheMonth" element={<LoggedInContainer><WorkOfTheMonth /></LoggedInContainer>} />
 
+              <Route path="/studentOfTheSection" element={<LoggedInContainer><AllStudentsOfSection/></LoggedInContainer>} />
+              <Route path="/teachersOfTheSection" element={<LoggedInContainer><AllTeachersOfSection /></LoggedInContainer>} />
+              <Route path="/ChildsList" element={<LoggedInContainer><ChildsList /></LoggedInContainer>} />
 
               <Route path="/Profile" element={<LoggedInContainer><Profile /></LoggedInContainer>} />
 

@@ -64,9 +64,9 @@ export const services = [
     },
     {
         id: 10,
-        name: "Work planning",
+        name: "Subjects Mangement",
         icon: "",
-        navigation: "",
+        navigation: "/AddSubject",
         allowedTypes: ["3"]
     },
     {
@@ -96,6 +96,25 @@ export const services = [
         icon: "",
         navigation: "/AllStudents",
         allowedTypes: ["5"]
+    },
+    {
+        id: 14,
+        name: "student Of The Section",
+        icon: "",
+        navigation: "/studentOfTheSection",
+        allowedTypes: ["4"]
+    }, {
+        id: 15,
+        name: "teachers of the section",
+        icon: "",
+        navigation: "/teachersOfTheSection",
+        allowedTypes: ["4"]
+    }, {
+        id: 16,
+        name: "Childs",
+        icon: "",
+        navigation: "/ChildsList",
+        allowedTypes: ["6"]
     },
 
 ]
@@ -179,3 +198,21 @@ export const month = [
         value: "december"
     },
 ]
+export const roles = [
+    { label: 'Student', value: '1' },
+    { label: 'Teacher', value: '2' },
+    { label: 'Admin', value: '3' },
+    { label: 'Head of section', value: '4' },
+    { label: 'Director', value: '5' },
+    { label: 'parent', value: '6' },
+
+
+
+];
+export const sections = [
+    { label: 'section1', value: '1' },
+    { label: 'section2', value: '2' },
+    { label: 'section3', value: '3' },
+    { label: 'section4', value: '4' },
+
+];

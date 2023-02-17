@@ -6,21 +6,25 @@ import { useNavigate } from 'react-router-native';
 import firebase from '../database/firebaseConfig';
 import { getUserBySpecialNumberAndPassword, getUserFromLocalStorage, setUserToLocalStorage } from '../utils/usersServices';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function LoginForm() {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [errMessage, setErrmessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
     const dbRef = firebase.firestore().collection('users');
     const loginFunc = async () => {
+        setLoading(true)
         console.log("start::");
         setErrmessage("")
         const loginRes = await getUserBySpecialNumberAndPassword({ email: userName, password: password })
         if (!loginRes?.success) {
             console.log("fail::", loginRes);
             setErrmessage(loginRes?.errMessage)
+            setLoading(false)
             return
         }
         try {
@@ -30,7 +34,9 @@ export default function LoginForm() {
 
         } catch (e) { }
         console.log("DashboardDashboardDashboard::", loginRes?.data?.users?.[0]);
+        setLoading(false)
         navigate('/Dashboard')
+
 
     }
     const getUserData = async () => {
@@ -50,6 +56,11 @@ export default function LoginForm() {
 
             }}
         >
+            <Spinner
+                visible={loading}
+                textContent={'Loading...'}
+                textStyle={styles.spinnerTextStyle}
+            />
             <View style={
                 {
 
